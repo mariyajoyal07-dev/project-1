@@ -36,13 +36,6 @@
   --ec-font-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
 }
 
-#ec-header-addon,
-#ec-courses-nav,
-#ec-search,
-.ec-header-add {
-  display: none !important;
-}
-
 .ec-scope{
   font-family: var(--ec-font-body);
   color: var(--ec-ink);
@@ -61,6 +54,24 @@
 .ec-container{ max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 .ec-visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
 
+
+.ec-related-strip {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  max-width: 100%;
+  padding-bottom: 10px;
+}
+
+.ec-related-strip .ec-card {
+  flex: 0 0 auto;
+  min-width: 250px; /* adjust if needed */
+}
+
+/* Optional: prevent page from going wider than screen */
+body {
+  overflow-x: hidden;
+}
 /* ---------- Header addition ---------- */
 .ec-header-add{
   display:flex; align-items:center; gap:10px; position:relative;
@@ -78,6 +89,16 @@
 .ec-nav-trigger svg{ width:12px; height:12px; transition:.25s transform; }
 .ec-nav-trigger.is-open svg{ transform:rotate(180deg); }
 
+
+.ec-header {
+  width: 100%;
+  background: #0d2b45;
+}
+
+.ec-header .ec-container {
+  max-width: 1180px;
+  margin: 0 auto;
+}
 /* ---------- Mega menu ---------- */
 .ec-megamenu{
   position:absolute; top:calc(100% + 14px); left:50%; transform:translate(-50%,8px);
@@ -374,8 +395,7 @@ body{margin:0;font-family:'Inter',sans-serif;}
   display:flex; align-items:center; justify-content:space-between; padding:14px 28px;
 }
 .site-header .brand{ color:#fff; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; display:flex; align-items:center; gap:8px; }
-.site-header .brand .site-logo{ height:60px; width:auto; display:block; }
-.site-header .brand .dot{ display:none; }
+.site-header .brand .dot{ width:9px;height:9px;border-radius:50%; background:#4DA8DA; }
 .site-nav{ display:flex; align-items:center; gap:4px; }
 .site-nav a{ color:rgba(255,255,255,0.85); text-decoration:none; font-size:14.5px; padding:10px 12px; border-radius:10px; }
 .site-nav a:hover{ background:rgba(255,255,255,0.1); color:#fff; }
@@ -387,30 +407,45 @@ body{margin:0;font-family:'Inter',sans-serif;}
 }
 .toggle-row button.active{ background:#0A2540; color:#fff; }
 footer.site-footer{ background:#0A2540; color:rgba(255,255,255,0.6); text-align:center; padding:34px; font-size:13px; }
+.site-logo {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
 </style>
 </head>
 <body>
 
   <!-- ============ EXISTING SITE HEADER (kept unchanged, per the brief) ============ -->
+
+
+
   <header class="site-header">
-    <a href="/" class="brand">
-      <img src="pro-skyll-logo.jpg" alt="Pro Skyll" class="site-logo" />
-      <span class="ec-visually-hidden">Pro Skyll</span>
-    </a>
+  
+    <a href="index.html">
+  <img src="https://media.licdn.com/dms/image/v2/D4D03AQF0OiVvcnXRXg/profile-displayphoto-shrink_200_200/B4DZPHe3lSHYAc-/0/1734218579384?e=2147483647&v=beta&t=b6tIpswHPIxyFLQLhHEjKrIxjJWCjyb6JewtoQ_4E10" alt="Company Logo" class="site-logo">
+</a>
+
     <nav class="site-nav">
       <a href="#/courses-home">Home</a>
-      
-      <div id="ec-header-mount"><!-- Courses nav item + mega menu + search get injected here --></div>
-     
+      <div>
+  <input type="text" id="site-search" placeholder="Search..." onkeydown="if(event.key === 'Enter') performSearch()">
+  <button onclick="performSearch()">Search</button>
+      </div>
     </nav>
   </header>
 
   <!-- ============ MODULE MOUNT POINT ============ -->
   <main id="ec-app"></main>
 
-  <footer class="site-footer">Existing site footer — left untouched by this module. © Your Company.</footer>
+  <footer class="site-footer">Copyright © 2026 | Powered by Pro Skyllz International</footer>
 
-  
+  <div class="toggle-row">
+    <button id="dark-toggle">🌙 Dark mode</button>
+  </div>
 
 <script>
 /**
@@ -1100,7 +1135,8 @@ if (typeof module !== "undefined" && module.exports) {
                   <div class="ec-faq-a">${escapeHtml(f.a)}</div>
                 </div>
               `).join("")}
-            
+            </div>
+          </div>
 
           <aside class="ec-sticky">
             <div class="ec-apply-card">
@@ -1109,7 +1145,6 @@ if (typeof module !== "undefined" && module.exports) {
               <div class="row"><span>Delivery mode</span><span>${escapeHtml(course.mode)}</span></div>
               <div class="row"><span>Level</span><span>${escapeHtml(course.level)}</span></div>
               <div class="row"><span>Certification</span><span style="text-align:right;max-width:180px;">ISO/IEC 17024-aligned</span></div>
-              
             </div>
             <div class="ec-panel" style="margin-top:20px;">
               <h2 style="font-size:15px;">Eligibility</h2>
@@ -1118,6 +1153,16 @@ if (typeof module !== "undefined" && module.exports) {
             <div class="ec-panel">
               <h2 style="font-size:15px;">Assessment</h2>
               <p style="font-size:13.5px;color:var(--ec-ink-soft);">${escapeHtml(course.assessment)}</p>
+            </div>
+            <div class="ec-panel" id="ec-enquiry-panel">
+              <h2>Enquire About This Course</h2>
+              <form class="ec-form" id="ec-enquiry-form">
+                <div><label>Full name</label><input required name="name" placeholder="Enter yor name"></div>
+                <div><label>Work email</label><input required type="email" name="email" placeholder="Enter yor mail"></div>
+                <div><label>Message</label><textarea name="message" rows="3" placeholder="Tell us about your training needs…"></textarea></div>
+                <button class="ec-btn ec-btn-primary" type="submit">Send Enquiry</button>
+                <div class="ec-form-msg" id="ec-enquiry-msg" role="status"></div>
+              </form>
             </div>
           </aside>
         </div>
@@ -1156,19 +1201,9 @@ if (typeof module !== "undefined" && module.exports) {
         </div>
       </section>
 
-      <section class="ec-section">
-        <div class="ec-container">
-          <div class="ec-section-head"><div><span class="ec-eyebrow">Start here</span><h2>Featured Courses</h2></div><a class="ec-link-arrow" href="#/courses">View all →</a></div>
-          <div class="ec-grid">${featured.map(({cat,course}) => courseCard(cat, course)).join("")}</div>
-        </div>
-      </section>
+      
 
-      <section class="ec-section" style="background:#fff;">
-        <div class="ec-container">
-          <div class="ec-section-head"><div><span class="ec-eyebrow">In demand</span><h2>Most Popular Courses</h2></div></div>
-          <div class="ec-grid">${popular.map(({cat,course}) => courseCard(cat, course)).join("")}</div>
-        </div>
-      </section>
+      
 
       <section class="ec-section">
         <div class="ec-container">
@@ -1283,6 +1318,13 @@ if (typeof module !== "undefined" && module.exports) {
 </script>
 <script>
   EOSHCourses.init({ headerMount: '#ec-header-mount', appMount: '#ec-app' });
+
+  const darkBtn = document.getElementById('dark-toggle');
+  darkBtn.addEventListener('click', () => {
+    document.querySelectorAll('.ec-scope').forEach(elx => elx.classList.toggle('ec-dark'));
+    darkBtn.classList.toggle('active');
+    darkBtn.textContent = darkBtn.classList.contains('active') ? '☀️ Light mode' : '🌙 Dark mode';
+  });
 </script>
 </body>
 </html>
