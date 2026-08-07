@@ -131,11 +131,19 @@ body {
 .ec-mm-stat{ font-family:var(--ec-font-mono); font-size:12.5px; color:var(--ec-ink-soft); }
 
 /* ---------- Search ---------- */
-.ec-search{ position:relative; width:360px; }
+.ec-search{ position:relative; width:500px; }
 .ec-search-input-wrap{
   display:flex; align-items:center; gap:8px;
   background: rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.25);
   border-radius:12px; padding:9px 12px; transition:.2s;
+  position:relative;
+}
+.ec-search:hover .ec-search-input-wrap,
+.ec-search-input-wrap:hover{
+  background: rgba(255,255,255,0.22);
+  border-color: rgba(255,255,255,0.4);
+  box-shadow: 0 0 0 2px rgba(77,168,218,0.2), 0 8px 18px rgba(0,0,0,0.14);
+  transform: translateY(-1px);
 }
 .ec-search-input-wrap:focus-within{
   background: var(--ec-white); border-color: var(--ec-white);
@@ -144,14 +152,25 @@ body {
 .ec-search-input-wrap svg{ width:15px; height:15px; flex-shrink:0; color:rgba(255,255,255,0.85); }
 .ec-search-input-wrap:focus-within svg{ color: var(--ec-navy); }
 .ec-search-input{
-  background:none; border:none; outline:none; color:var(--ec-white); font-size:14px; width:100%;
+  background:none; border:none; outline:none; color:var(--ec-white); font-size:14px; width:100%; flex:1 1 auto; min-width:0;
 }
 .ec-search-input-wrap:focus-within .ec-search-input{ color:var(--ec-navy); }
 .ec-search-input::placeholder{ color:rgba(255,255,255,0.7); }
 .ec-search-input-wrap:focus-within .ec-search-input::placeholder{ color:var(--ec-ink-soft); }
+.ec-search-btn{
+  border:none; border-radius:999px; padding:7px 12px; margin-left:4px;
+  background: rgba(255,255,255,0.92); color:var(--ec-navy); font-size:12px; font-weight:700;
+  cursor:pointer; white-space:nowrap; opacity:0; pointer-events:none;
+  transform:translateX(4px); transition:.2s ease;
+}
+.ec-search:hover .ec-search-btn,
+.ec-search:focus-within .ec-search-btn,
+.ec-search-input-wrap:hover .ec-search-btn{
+  opacity:1; pointer-events:auto; transform:translateX(0);
+}
 
 .ec-search-panel{
-  position:absolute; top:calc(100% + 10px); left:0; width:380px; max-width:88vw;
+  position:absolute; top:calc(100% + 10px); left:0; width:520px; max-width:92vw;
   background:var(--ec-white); border-radius:16px; box-shadow:var(--ec-shadow);
   border:1px solid var(--ec-line); padding:10px; z-index:90;
   opacity:0; visibility:hidden; transform:translateY(6px); transition:.18s;
@@ -422,7 +441,7 @@ footer.site-footer{ background:#0A2540; color:rgba(255,255,255,0.6); text-align:
     <nav class="site-nav">
       <a href="#/courses-home">Home</a>
       <div>
-  <input type="text" id="site-search" placeholder="Search..." onkeydown="if(event.key === 'Enter') performSearch()">
+  <input type="text" id="site-search" placeholder="Search courses here" onkeydown="if(event.key === 'Enter') performSearch()">
   <button onclick="performSearch()">Search</button>
       </div>
     </nav>
@@ -834,6 +853,7 @@ if (typeof module !== "undefined" && module.exports) {
           <div class="ec-search-input-wrap">
             <svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M18 18L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
             <input class="ec-search-input" id="ec-search-input" placeholder="Search courses, qualifications…" autocomplete="off" aria-label="Search courses">
+            <button class="ec-search-btn" type="button" onclick="performSearch()">Search</button>
           </div>
           <div class="ec-search-panel" id="ec-search-panel"></div>
         </div>
