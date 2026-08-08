@@ -406,6 +406,9 @@ body{margin:0;font-family:'Inter',sans-serif;}
 .site-header .brand{ color:#fff; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; display:flex; align-items:center; gap:8px; }
 .site-header .brand .dot{ width:9px;height:9px;border-radius:50%; background:#4DA8DA; }
 .site-nav{ display:flex; align-items:center; gap:4px; }
+.site-nav > div{ display:flex; align-items:center; gap:8px; width:min(600px, 100%); }
+.site-nav input{ width:100%; max-width:600px; min-width:240px; padding:10px 14px; border:1px solid rgba(255,255,255,0.25); border-radius:999px; font-size:14px; }
+.site-nav button{ padding:10px 14px; border-radius:999px; border:none; background:#4DA8DA; color:#fff; font-weight:600; cursor:pointer; }
 .site-nav a{ color:rgba(255,255,255,0.85); text-decoration:none; font-size:14.5px; padding:10px 12px; border-radius:10px; }
 .site-nav a:hover{ background:rgba(255,255,255,0.1); color:#fff; }
 #ec-header-mount{ display:flex; }
@@ -488,239 +491,161 @@ footer.site-footer{ background:#0A2540; color:rgba(255,255,255,0.6); text-align:
  * }]
  */
 
+function mkCourse(c) {
+  const base = slugify(c.title + (c.level ? "-" + c.level : ""));
+  const slug = c.slugOverride || base;
+  return {
+    id: slug,
+    slug: slug,
+    code: "EOSH-" + slug.split("-").map(s => s[0]).join("").toUpperCase().slice(0, 6),
+    certification: "Internationally recognised EOSH UK certificate of achievement, ISO/IEC 17024-aligned.",
+    assessment: c.assessment || "Assessment",
+    eligibility: "Open to employees, supervisors and managers in relevant sectors. No formal prerequisites unless stated.",
+    careers: c.careers || ["Site Safety Officer", "HSE Coordinator", "Operations Supervisor", "Compliance Auditor"],
+    summary: c.summary || "Full course summary not yet published — contact admissions for the detailed syllabus.",
+    outcomes: c.outcomes || ["Full learning outcomes not yet published — contact admissions for the detailed syllabus."],
+    modules: c.modules || ["Detailed module breakdown available on request"],
+    mode: c.mode || "Not specified in database",
+    faqs: c.faqs || [
+      { q: "Is this course accredited?", a: "Yes — the qualification follows an ISO/IEC 17024:2012-aligned certification scheme under EOSH UK." },
+      { q: "How long is the certificate valid?", a: "Typically 3 years, after which a refresher assessment is recommended." },
+    ],
+    ...c,
+  };
+}
+
 const COURSE_CATEGORIES = [
   {
-    id: "health-safety",
-    name: "Health & Safety",
-    slug: "health-safety",
-    cluster: "Core Workplace Safety",
-    icon: "🛡️",
-    blurb: "Foundational and advanced workplace health & safety qualifications covering risk, hazard identification and legal compliance.",
+    id: "health-safety", name: "Health & Safety", slug: "health-safety",
+    cluster: "Core Workplace Safety", icon: "🛡️",
+    blurb: "Foundational to certified-level health & safety qualifications.",
     detailedListPending: false,
     courses: [
-      mkCourse({
-        title: "Level 2 Award in Workplace Health & Safety",
-        level: "Level 2",
-        duration: "1 day",
-        mode: "Classroom / Online",
-        summary: "An entry-level qualification covering the fundamentals of hazard identification, risk assessment and safe working practice for any workplace.",
-        outcomes: [
-          "Identify common workplace hazards and associated risks",
-          "Understand employer and employee health & safety duties",
-          "Apply basic risk-control measures",
-          "Recognise the reporting process for incidents and near-misses",
-        ],
-        modules: ["Introduction to Health & Safety Law", "Hazard & Risk Identification", "Control Measures & PPE", "Accident Reporting & Investigation Basics"],
-      }),
-      mkCourse({
-        title: "Level 3 Award in Workplace Health & Safety",
-        level: "Level 3",
-        duration: "2 days",
-        mode: "Classroom / Online",
-        summary: "A supervisory-level qualification for those responsible for maintaining safe systems of work across a team or site.",
-        outcomes: [
-          "Conduct structured risk assessments",
-          "Develop and communicate safe systems of work",
-          "Lead toolbox talks and safety briefings",
-          "Interpret core UK/international H&S legislation",
-        ],
-        modules: ["Risk Assessment Methodology", "Safe Systems of Work", "Supervisory Responsibilities", "Legislation & Compliance"],
-      }),
-      mkCourse({
-        title: "Level 4 Award in Workplace Health & Safety",
-        level: "Level 4",
-        duration: "3 days",
-        mode: "Classroom / Blended",
-        summary: "A management-level qualification for those designing and auditing health & safety management systems.",
-        outcomes: [
-          "Design a workplace H&S management system",
-          "Carry out internal safety audits",
-          "Manage contractor and third-party safety compliance",
-          "Report on safety KPIs to senior stakeholders",
-        ],
-        modules: ["H&S Management Systems", "Auditing & Continuous Improvement", "Contractor Management", "Reporting & KPIs"],
-      }),
-      mkCourse({
-        title: "Level 4 Award in Process Safety Management",
-        level: "Level 4",
-        duration: "3 days",
-        mode: "Classroom",
-        summary: "Focused on the systems and controls that prevent major process-related incidents in industrial environments.",
-        outcomes: ["Understand process safety fundamentals", "Apply barrier & bow-tie risk models", "Manage change safely (MOC)", "Investigate process safety incidents"],
-        modules: ["Process Safety Fundamentals", "Barrier Management", "Management of Change", "Incident Investigation"],
-      }),
-      mkCourse({
-        title: "Award in Workplace Health & Safety for Supervision",
-        level: "Award",
-        duration: "1 day",
-        mode: "Classroom / Online",
-        summary: "Practical safety leadership skills for first-line supervisors managing day-to-day site safety.",
-        outcomes: ["Coach teams on safe behaviours", "Run effective safety briefings", "Escalate hazards appropriately"],
-        modules: ["Supervisory Safety Leadership", "Behavioural Safety", "Escalation & Reporting"],
-      }),
-      mkCourse({
-        title: "Award in HSE Manager (Health, Safety & Environment)",
-        level: "Award",
-        duration: "4 days",
-        mode: "Blended",
-        summary: "A rounded qualification for HSE managers overseeing health, safety and environmental compliance across a site or organisation.",
-        outcomes: ["Build an integrated HSE strategy", "Manage regulatory compliance", "Lead incident investigations", "Champion a positive safety culture"],
-        modules: ["HSE Strategy & Policy", "Regulatory Compliance", "Investigation Leadership", "Culture & Behavioural Change"],
-      }),
-      mkCourse({
-        title: "Award in HSE Inspector (Health, Safety & Environment)",
-        level: "Award",
-        duration: "3 days",
-        mode: "Classroom",
-        summary: "Prepares candidates to carry out formal HSE inspections and compliance audits.",
-        outcomes: ["Plan and execute site inspections", "Document non-conformances", "Recommend corrective actions"],
-        modules: ["Inspection Planning", "Audit Techniques", "Non-Conformance Reporting"],
-      }),
-      mkCourse({
-        title: "Award in Health & Safety for Workers",
-        level: "Award",
-        duration: "Half day",
-        mode: "Online",
-        summary: "A concise induction-level course for frontline workers joining any site or workplace.",
-        outcomes: ["Recognise everyday hazards", "Follow safe working procedures", "Know how and when to report concerns"],
-        modules: ["Everyday Hazards", "Safe Working Procedures", "Reporting Concerns"],
-      }),
-      mkCourse({
-        title: "Train the Trainer — HSE",
-        level: "Award",
-        duration: "2 days",
-        mode: "Classroom",
-        summary: "Equips experienced safety professionals to deliver in-house HSE training to others.",
-        outcomes: ["Design an effective training session", "Facilitate adult learning", "Assess learner competence"],
-        modules: ["Instructional Design", "Facilitation Skills", "Learner Assessment"],
-      }),
+      mkCourse({ title: "Award in Workplace Health & Safety", level: "Level 2", duration: "3 Days", assessment: "Assessment + MCQ" }),
+      mkCourse({ title: "Award in Workplace Health & Safety", level: "Level 3", duration: "7 Days", assessment: "Assessment + MCQ" }),
+      mkCourse({ title: "Award in Workplace Health & Safety", level: "Level 4", duration: "10 Days", assessment: "Assessment + MCQ" }),
+      mkCourse({ title: "Award in Certified Safety Officer (CSO)", level: "Certified", duration: "45 Days", assessment: "Assignment + Assessment" }),
+      mkCourse({ title: "Award in Certified Safety Engineer (CSE)", level: "Certified", duration: "45 Days", assessment: "Assignment + Assessment" }),
+      mkCourse({ title: "Award in Certified Safety Supervisor (CSS)", level: "Certified", duration: "45 Days", assessment: "Assignment + Assessment" }),
+      mkCourse({ title: "Award in Certified Safety Trainer (CST)", level: "Certified", duration: "45 Days", assessment: "Assignment + Assessment" }),
+      mkCourse({ title: "Award in Certified Safety Manager (CSM)", level: "Certified", duration: "45 Days", assessment: "Assignment + Assessment" }),
+      mkCourse({ title: "Award in Certified Safety and Health Manager (CSHM)", level: "Certified", duration: "45 Days", assessment: "Assignment + Assessment" }),
     ],
   },
   {
-    id: "fire-safety",
-    name: "Fire Safety",
-    slug: "fire-safety",
-    cluster: "Core Workplace Safety",
-    icon: "🔥",
-    blurb: "Fire prevention, detection and emergency response qualifications for every level of responsibility.",
+    id: "construction-process-safety", name: "Construction & Process Safety", slug: "construction-process-safety",
+    cluster: "Core Workplace Safety", icon: "🚧",
+    blurb: "Process safety, confined space, working at height and scaffolding qualifications.",
     detailedListPending: false,
     courses: [
-      mkCourse({ title: "Level 2 Award in Basic Fire Safety", level: "Level 2", duration: "1 day", mode: "Classroom / Online", summary: "Core fire-awareness training covering causes, prevention and evacuation procedure.", outcomes: ["Understand the fire triangle and common ignition sources", "Follow evacuation procedures confidently", "Use a fire extinguisher correctly"], modules: ["Fire Science Basics", "Prevention & Housekeeping", "Evacuation Procedure"] }),
-      mkCourse({ title: "Level 3 Award in Fire Safety Management", level: "Level 3", duration: "2 days", mode: "Classroom", summary: "For those responsible for a building's fire safety strategy and risk assessments.", outcomes: ["Conduct a fire risk assessment", "Develop a fire safety management plan", "Coordinate fire marshals and drills"], modules: ["Fire Risk Assessment", "Fire Safety Management Plans", "Marshal Coordination"] }),
-      mkCourse({ title: "Level 2 Award in Fire & Industrial Safety", level: "Level 2", duration: "1 day", mode: "Classroom", summary: "Combines fire awareness with broader industrial hazard controls for site-based roles.", outcomes: ["Identify industrial fire hazards", "Apply hot-work precautions", "Respond to a fire emergency on an industrial site"], modules: ["Industrial Fire Hazards", "Hot Work Precautions", "Emergency Response"] }),
-      mkCourse({ title: "Level 3 Award in Fire & Industrial Safety", level: "Level 3", duration: "2 days", mode: "Classroom", summary: "A supervisory qualification covering fire risk in complex industrial environments.", outcomes: ["Assess fire risk in industrial processes", "Manage flammable materials safely", "Lead an emergency response team"], modules: ["Process Fire Risk", "Flammable Materials Management", "Emergency Team Leadership"] }),
-      mkCourse({ title: "Award in Fire Safety for Managers", level: "Award", duration: "1 day", mode: "Classroom / Online", summary: "Fire safety accountability and legal duties for managers and duty holders.", outcomes: ["Understand duty-holder responsibilities", "Oversee fire risk assessments", "Maintain fire safety documentation"], modules: ["Duty Holder Responsibilities", "Overseeing Risk Assessments", "Documentation & Records"] }),
-      mkCourse({ title: "Award in Fire Safety & Hazard Management", level: "Award", duration: "2 days", mode: "Classroom", summary: "Integrates fire safety with wider hazard management practice.", outcomes: ["Link fire risk to broader hazard registers", "Prioritise control measures", "Report hazard trends"], modules: ["Hazard Registers", "Control Prioritisation", "Trend Reporting"] }),
-      mkCourse({ title: "Award in Firefighting & Fire Extinguisher Safety", level: "Award", duration: "1 day", mode: "Classroom (practical)", summary: "Hands-on training in extinguisher types, selection and safe first-response firefighting.", outcomes: ["Select the correct extinguisher for a fire class", "Operate an extinguisher safely", "Know when not to fight a fire"], modules: ["Fire Classes", "Extinguisher Types", "Practical First Response"] }),
-      mkCourse({ title: "Train the Trainer — Fire Safety", level: "Award", duration: "2 days", mode: "Classroom", summary: "Enables qualified fire safety practitioners to deliver in-house fire training.", outcomes: ["Design a fire training session", "Run a live evacuation drill", "Assess trainee competence"], modules: ["Session Design", "Drill Facilitation", "Competence Assessment"] }),
-      mkCourse({ title: "Award in Hot Work Safety", level: "Award", duration: "1 day", mode: "Classroom", summary: "Covers permit-to-work systems and precautions for welding, cutting and other hot work.", outcomes: ["Apply hot-work permit procedures", "Set up fire watches", "Identify hot-work exclusion zones"], modules: ["Permit-to-Work Systems", "Fire Watch Procedure", "Exclusion Zones"] }),
+      mkCourse({ title: "Award in Process Safety Management", level: "Level 3", duration: "10 Days", assessment: "Assessment + MCQ" }),
+      mkCourse({ title: "Award in Confined Space Safety", level: "Award", duration: "Flexible", assessment: "Practical + Assessment" }),
+      mkCourse({ title: "Award in Work at Height Safety", level: "Award", duration: "Flexible", assessment: "Practical + Assessment" }),
+      mkCourse({ title: "Award in Scaffolding Safety", level: "Award", duration: "Flexible", assessment: "Practical + Assessment" }),
     ],
   },
   {
-    id: "environment",
-    name: "Environment",
-    slug: "environment",
-    cluster: "Environment & Sustainability",
-    icon: "🌿",
-    blurb: "Environmental principles, management systems and audit techniques for sites and organisations.",
+    id: "lifting-rigging", name: "Lifting & Rigging", slug: "lifting-rigging",
+    cluster: "Operator & Lifting", icon: "🏗️",
+    blurb: "Safe lifting, slinging, rigging and crane/forklift operator qualifications.",
     detailedListPending: false,
     courses: [
-      mkCourse({ title: "Level 2 Award in Environmental Principles", level: "Level 2", duration: "1 day", mode: "Online / Classroom", summary: "An introduction to core environmental concepts, impacts and responsibilities.", outcomes: ["Understand key environmental impacts of work activities", "Recognise environmental legislation basics", "Apply everyday environmental good practice"], modules: ["Environmental Impacts", "Legislation Basics", "Everyday Good Practice"] }),
-      mkCourse({ title: "Level 3 Award in Environmental Management", level: "Level 3", duration: "2 days", mode: "Classroom", summary: "For those managing environmental performance and compliance at site level.", outcomes: ["Implement an environmental management plan", "Monitor environmental KPIs", "Manage waste and emissions controls"], modules: ["Environmental Management Plans", "KPI Monitoring", "Waste & Emissions Control"] }),
-      mkCourse({ title: "Level 4 Award in Environmental Management & Legal Compliance", level: "Level 4", duration: "3 days", mode: "Blended", summary: "A senior qualification covering environmental law, permitting and regulatory compliance.", outcomes: ["Interpret environmental legislation", "Manage permitting and reporting obligations", "Lead compliance audits"], modules: ["Environmental Law", "Permitting & Reporting", "Compliance Audits"] }),
-      mkCourse({ title: "Award in Environmental & Social Action Plan (ESAP) for Managers", level: "Award", duration: "2 days", mode: "Classroom", summary: "Guides managers through building a practical environmental and social action plan.", outcomes: ["Draft an ESAP framework", "Set measurable sustainability targets", "Engage stakeholders on delivery"], modules: ["ESAP Framework", "Target Setting", "Stakeholder Engagement"] }),
-      mkCourse({ title: "Award in EHS Guidelines (Environment, Health & Safety)", level: "Award", duration: "2 days", mode: "Classroom / Online", summary: "Covers integrated environment, health and safety guideline frameworks used across industry.", outcomes: ["Apply integrated EHS guidelines", "Align site practice to international standards", "Coordinate EHS reporting"], modules: ["Integrated EHS Frameworks", "Standards Alignment", "EHS Reporting"] }),
-      mkCourse({ title: "Award in Environmental Management System Audit Techniques & Best Practice", level: "Award", duration: "2 days", mode: "Classroom", summary: "Practical audit skills for evaluating environmental management systems.", outcomes: ["Plan and conduct an EMS audit", "Write clear audit findings", "Track corrective actions to closure"], modules: ["Audit Planning", "Findings & Reporting", "Corrective Action Tracking"] }),
-      mkCourse({ title: "Award in Environmental Quality Monitoring & Analysis", level: "Award", duration: "2 days", mode: "Classroom", summary: "Introduces monitoring techniques for air, water and soil quality in an occupational context.", outcomes: ["Select appropriate monitoring methods", "Interpret environmental quality data", "Report findings to stakeholders"], modules: ["Monitoring Methods", "Data Interpretation", "Stakeholder Reporting"] }),
+      mkCourse({ title: "Award in Lifting & Rigging Safety", level: "Level 2", duration: "Flexible", assessment: "Assessment" }),
+      mkCourse({ title: "Award in Lifting & Rigging Safety", level: "Level 3", duration: "Flexible", assessment: "Assessment" }),
+      mkCourse({ title: "Award in Basic Rigger and Signalman", level: "Level 2", duration: "Flexible", assessment: "Practical + Written" }),
+      mkCourse({ title: "Award in Principles of Rigger and Signalman", level: "Level 3", duration: "Flexible", assessment: "Practical + Written" }),
+      mkCourse({ title: "Award in Advanced Rigger and Signalman", level: "Level 4", duration: "Flexible", assessment: "Practical + Written" }),
+      mkCourse({ title: "Award in Lifting Supervisor", level: "Award", duration: "Flexible", assessment: "Assessment" }),
+      mkCourse({ title: "Safe Forklift Operations", level: "Award", duration: "Flexible", assessment: "Practical + Assessment" }),
+      mkCourse({ title: "Safe Gantry Crane Operation", level: "Award", duration: "Flexible", assessment: "Practical + Assessment" }),
     ],
   },
   {
-    id: "environmental-sustainability",
-    name: "Environmental Sustainability",
-    slug: "environmental-sustainability",
-    cluster: "Environment & Sustainability",
-    icon: "♻️",
-    blurb: "How people, organisations and governments can act on climate, biodiversity and resource sustainability.",
-    detailedListPending: true,
-    courses: [],
-  },
-  {
-    id: "first-aid",
-    name: "First Aid",
-    slug: "first-aid",
-    cluster: "Core Workplace Safety",
-    icon: "➕",
-    blurb: "Emergency first aid, CPR and life-support qualifications for the workplace and beyond.",
+    id: "hazard-management", name: "Hazard Management", slug: "hazard-management",
+    cluster: "Environment & Sustainability", icon: "⚠️",
+    blurb: "HAZOP leadership, engineering HAZOPs and hazardous waste emergency response.",
     detailedListPending: false,
     courses: [
-      mkCourse({ title: "Level 2 Award in Basic Life Support & Safe Use of an AED", level: "Level 2", duration: "1 day", mode: "Classroom (practical)", summary: "Covers essential life-support skills and safe automated external defibrillator use.", outcomes: ["Perform CPR to current guidelines", "Operate an AED safely", "Recognise when to escalate to emergency services"], modules: ["CPR Technique", "AED Operation", "Emergency Escalation"] }),
-      mkCourse({ title: "Level 2 Award in Emergency First Aid at Work", level: "Level 2", duration: "1 day", mode: "Classroom (practical)", summary: "A workplace-focused emergency first aid qualification covering common incident types.", outcomes: ["Assess an incident scene safely", "Treat common workplace injuries", "Complete an incident record"], modules: ["Scene Assessment", "Common Injury Treatment", "Incident Recording"] }),
-      mkCourse({ title: "Level 3 Award in First Aid at Work", level: "Level 3", duration: "3 days", mode: "Classroom (practical)", summary: "A comprehensive first aid qualification for designated workplace first-aiders.", outcomes: ["Manage a wider range of medical emergencies", "Provide ongoing casualty care", "Lead a first aid response at scale"], modules: ["Extended Casualty Care", "Medical Emergencies", "First-Aider Leadership"] }),
-      mkCourse({ title: "Award in First Aid & AED", level: "Award", duration: "1 day", mode: "Classroom (practical)", summary: "A flexible first aid and defibrillator course suited to community and workplace settings.", outcomes: ["Respond to common medical emergencies", "Use an AED with confidence"], modules: ["Medical Emergency Response", "AED Practical"] }),
-      mkCourse({ title: "Award in CPR & First Aid", level: "Award", duration: "Half day", mode: "Classroom (practical)", summary: "A short, practical course focused on CPR and immediate first aid response.", outcomes: ["Perform CPR confidently", "Apply basic first aid techniques"], modules: ["CPR Practical", "Basic First Aid Techniques"] }),
-      mkCourse({ title: "Award in Basic Life Support (BLS)", level: "Award", duration: "Half day", mode: "Classroom (practical)", summary: "Focused, ISO-aligned basic life support training for any workplace.", outcomes: ["Recognise a life-threatening emergency", "Deliver basic life support until help arrives"], modules: ["Recognising Emergencies", "Basic Life Support Practical"] }),
+      mkCourse({ title: "Award in HAZOP Leadership and Management", level: "Award", duration: "Flexible", assessment: "Assessment" }),
+      mkCourse({ title: "Award in HAZOPs for Engineers & Technicians", level: "Award", duration: "Flexible", assessment: "Assessment" }),
+      mkCourse({ title: "Award in Hazardous Waste Operations and Emergency Response (HAZWOPER)", level: "Award", duration: "Flexible", assessment: "Assessment" }),
     ],
   },
   {
-    id: "safe-operator-training",
-    name: "Safe Operator Training",
-    slug: "safe-operator-training",
-    cluster: "Operator & Lifting",
-    icon: "🚜",
-    blurb: "Equipment-specific safe operating qualifications for plant, lifting and material-handling machinery.",
+    id: "fire-safety", name: "Fire Safety", slug: "fire-safety",
+    cluster: "Core Workplace Safety", icon: "🔥",
+    blurb: "Fire prevention, detection and fire safety management qualifications.",
     detailedListPending: false,
     courses: [
-      mkCourse({ title: "Forklift Safe Operator Training", level: "Award", duration: "2 days", mode: "Classroom + Practical", summary: "Safe operating practice for counterbalance and reach forklifts.", outcomes: ["Conduct pre-use equipment checks", "Operate a forklift safely in a working environment", "Apply load-handling best practice"], modules: ["Pre-Use Checks", "Operating Practice", "Load Handling"] }),
-      mkCourse({ title: "Crane Safe Operator Training", level: "Award", duration: "3 days", mode: "Classroom + Practical", summary: "Covers safe crane operation, load charts and signalling procedures.", outcomes: ["Read and apply load charts", "Coordinate with banksmen and signallers", "Operate within safe working load limits"], modules: ["Load Charts", "Signalling & Coordination", "Safe Working Loads"] }),
-      mkCourse({ title: "Boom Lift Safe Operator Training", level: "Award", duration: "1 day", mode: "Classroom + Practical", summary: "Safe operation of boom-type mobile elevating work platforms (MEWPs).", outcomes: ["Carry out pre-use MEWP inspection", "Operate a boom lift within site rules", "Respond to an emergency descent scenario"], modules: ["MEWP Inspection", "Operating Procedure", "Emergency Descent"] }),
-      mkCourse({ title: "Man Lift Safe Operator Training", level: "Award", duration: "1 day", mode: "Classroom + Practical", summary: "Focused training on vertical personnel/man-lift platforms.", outcomes: ["Inspect a man lift before use", "Operate within rated capacity", "Apply fall-prevention measures"], modules: ["Pre-Use Inspection", "Rated Capacity", "Fall Prevention"] }),
-      mkCourse({ title: "Tower Crane Safe Operator Training", level: "Award", duration: "3 days", mode: "Classroom + Practical", summary: "Specialist training for tower crane operators on erection, use and dismantling safety.", outcomes: ["Understand tower crane stability principles", "Apply safe slewing and lifting procedure", "Coordinate with site lift supervisors"], modules: ["Stability Principles", "Slewing & Lifting Procedure", "Lift Supervisor Coordination"] }),
-      mkCourse({ title: "Excavator Safe Operator Training", level: "Award", duration: "2 days", mode: "Classroom + Practical", summary: "Safe operating practice for tracked and wheeled excavators on site.", outcomes: ["Carry out daily excavator checks", "Operate safely near excavations and services", "Apply safe digging and slewing technique"], modules: ["Daily Checks", "Excavation & Buried Services", "Digging & Slewing Technique"] }),
+      mkCourse({ title: "Award in Fire Safety", level: "Level 2", duration: "Flexible", assessment: "Assessment + MCQ" }),
+      mkCourse({ title: "Award in Fire Safety Management", level: "Level 3", duration: "Flexible", assessment: "Assessment + MCQ" }),
     ],
   },
   {
-    id: "lifting-rigging",
-    name: "Lifting & Rigging",
-    slug: "lifting-rigging",
-    cluster: "Operator & Lifting",
-    icon: "🏗️",
-    blurb: "Safe lifting, slinging and rigging practice for controlled load movement.",
-    detailedListPending: true,
-    courses: [],
+    id: "first-aid", name: "First Aid", slug: "first-aid",
+    cluster: "Core Workplace Safety", icon: "➕",
+    blurb: "Emergency first aid, CPR and life-support qualifications.",
+    detailedListPending: false,
+    courses: [
+      mkCourse({ title: "Award in Emergency First Aid at Work", level: "Level 2", duration: "Flexible", assessment: "Practical + Assessment" }),
+      mkCourse({ title: "Award in First Aid at Work", level: "Level 3", duration: "Flexible", assessment: "Practical + Assessment" }),
+      mkCourse({ title: "Award in Basic Life Support (BLS) and AED", level: "Award", duration: "Flexible", assessment: "Practical" }),
+    ],
   },
-  
   {
-    id: "scaffolding",
-    name: "Scaffolding",
-    slug: "scaffolding",
-    cluster: "Access & Confined Environments",
-    icon: "🧱",
-    blurb: "Scaffold erection, inspection and safe-use qualifications for access platforms.",
-    detailedListPending: true,
-    courses: [],
+    id: "food-safety", name: "Food Safety", slug: "food-safety",
+    cluster: "Core Workplace Safety", icon: "🍽️",
+    blurb: "Food handling and hygiene compliance qualification.",
+    detailedListPending: false,
+    courses: [
+      mkCourse({ title: "Award in Food Safety", level: "Level 3", duration: "Flexible", assessment: "Assessment + MCQ" }),
+    ],
   },
- 
-  
   {
-    id: "certified-master-trainer",
-    name: "Certified Master Trainer",
-    slug: "certified-master-trainer",
-    cluster: "Certifications & Diplomas",
-    icon: "🎓",
-    blurb: "Advanced teaching technique, instructional design and assessment for safety trainers.",
-    detailedListPending: true,
-    courses: [],
+    id: "environment", name: "Environment", slug: "environment",
+    cluster: "Environment & Sustainability", icon: "🌿",
+    blurb: "Environmental principles, management and legal compliance qualifications.",
+    detailedListPending: false,
+    courses: [
+      mkCourse({ title: "Award in Environmental Principles", level: "Level 2", duration: "Flexible", assessment: "Assessment" }),
+      mkCourse({ title: "Award in Environmental Management", level: "Level 3", duration: "Flexible", assessment: "Assessment" }),
+      mkCourse({ title: "Award in Environmental Management & Legal Compliance", level: "Level 4", duration: "Flexible", assessment: "Assessment" }),
+    ],
   },
- 
- 
-  
- 
- 
-  
-  
-  
-
- 
+  {
+    id: "environmental-sustainability", name: "Environmental Sustainability", slug: "environmental-sustainability",
+    cluster: "Environment & Sustainability", icon: "♻️",
+    blurb: "Sustainability practice and ESG qualifications.",
+    detailedListPending: false,
+    courses: [
+      mkCourse({ title: "Award in Environmental Sustainability", level: "Level 2", duration: "Flexible", assessment: "Assessment" }),
+      mkCourse({ title: "Award in Environmental Sustainability", level: "Level 3", duration: "Flexible", assessment: "Assessment" }),
+      mkCourse({ title: "Award in Environmental Social and Governance (ESG)", level: "Award", duration: "Flexible", assessment: "Assessment" }),
+    ],
+  },
+  {
+    id: "oil-gas-safety", name: "Oil & Gas Safety", slug: "oil-gas-safety",
+    cluster: "Industry Specific", icon: "🛢️",
+    blurb: "Sector-specific safety and safety management qualifications for oil & gas.",
+    detailedListPending: false,
+    courses: [
+      mkCourse({ title: "Award in Oil & Gas Safety", level: "Level 2", duration: "Flexible", assessment: "Assessment" }),
+      mkCourse({ title: "Award in Oil & Gas Safety Management", level: "Level 3", duration: "Flexible", assessment: "Assessment" }),
+    ],
+  },
+  {
+    id: "diploma-programmes", name: "Diploma Programmes", slug: "diploma-programmes",
+    cluster: "Certifications & Diplomas", icon: "🎓",
+    blurb: "Extended diploma-level qualifications in HSE and quality management.",
+    detailedListPending: false,
+    courses: [
+      mkCourse({ title: "Diploma in Occupational Health & Safety", level: "Diploma", duration: "6 Months", assessment: "Assignments + Assessment" }),
+      mkCourse({ title: "Diploma in Health Safety & Environment", level: "Diploma", duration: "6 Months", assessment: "Assignments + Assessment" }),
+      mkCourse({ title: "Diploma in Health Safety & Environment", level: "Diploma", duration: "6 Months", assessment: "Assignments + Assessment", slugOverride: "diploma-health-safety-environment-2" }),
+      mkCourse({ title: "Advanced Diploma in Health Safety & Environment", level: "Diploma", duration: "6 Months", assessment: "Assignments + Assessment" }),
+      mkCourse({ title: "Diploma in Industrial Quality Management", level: "Diploma", duration: "6 Months", assessment: "Assignments + Assessment" }),
+    ],
+  },
 ];
 
 // ---- helpers -------------------------------------------------------------
@@ -729,23 +654,6 @@ function slugify(str) {
   return str.toLowerCase().trim().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
-function mkCourse(c) {
-  return {
-    id: slugify(c.title),
-    slug: slugify(c.title),
-    code: "EOSH-" + slugify(c.title).split("-").map(s => s[0]).join("").toUpperCase().slice(0, 6),
-    certification: "Internationally recognised EOSH-style certificate of achievement, ISO/IEC 17024-aligned.",
-    assessment: "Multiple-choice knowledge check and, where indicated, a practical/observed competence assessment.",
-    eligibility: "Open to employees, supervisors and managers in relevant sectors. No formal prerequisites unless stated.",
-    careers: ["Site Safety Officer", "HSE Coordinator", "Operations Supervisor", "Compliance Auditor"],
-    faqs: [
-      { q: "Is this course accredited?", a: "Yes — the qualification follows an ISO/IEC 17024:2012-aligned certification scheme." },
-      { q: "How is the course delivered?", a: c.mode + "." },
-      { q: "How long is the certificate valid?", a: "Typically 3 years, after which a refresher assessment is recommended." },
-    ],
-    ...c,
-  };
-}
 function buildSearchIndex(categories) {
   const index = [];
   categories.forEach(cat => {
