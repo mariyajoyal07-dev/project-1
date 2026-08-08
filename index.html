@@ -1074,11 +1074,18 @@ if (typeof module !== "undefined" && module.exports) {
             </div>
             <div class="ec-panel" id="ec-enquiry-panel">
               <h2>Enquire About This Course</h2>
-              <form class="ec-form" id="ec-enquiry-form">
-                <div><label>Full name</label><input required name="name" placeholder="Enter yor name"></div>
-                <div><label>Work email</label><input required type="email" name="email" placeholder="Enter yor mail"></div>
+              
+              <!-- Added target="_blank" directly to the form tag structure -->
+              <form class="ec-form" id="ec-enquiry-form" target="_blank">
+                <div><label>Full name</label><input required name="name" placeholder="Enter your name"></div>
+                <div><label>Course name</label><input required name="Course name" placeholder="Enter Course name"></div>
+                <div><label>Work email</label><input required type="email" name="email" placeholder="Enter your mail"></div>
                 <div><label>Message</label><textarea name="message" rows="3" placeholder="Tell us about your training needs…"></textarea></div>
-                <button class="ec-btn ec-btn-primary" type="submit">Send Enquiry</button>
+                
+                <button class="ec-btn ec-btn-primary" type="button" onclick="prepareWhatsAppLink()" style="width:100%;">
+                  Send Enquiry
+                </button>
+                
                 <div class="ec-form-msg" id="ec-enquiry-msg" role="status"></div>
               </form>
             </div>
