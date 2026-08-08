@@ -119,6 +119,22 @@
   background: rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.25);
   border-radius:12px; padding:9px 12px; transition:.2s;
 }
+.ec-search:hover .ec-search-input-wrap,
+.ec-search-input-wrap:hover{
+  background: linear-gradient(135deg, rgba(255,255,255,0.38), rgba(255,255,255,0.24)) !important;
+  border-color: rgba(255,255,255,0.95) !important;
+  box-shadow: 0 0 0 4px rgba(77,168,218,0.35), 0 20px 42px rgba(0,0,0,0.28), 0 0 0 10px rgba(255,255,255,0.1) !important;
+  transform: translateY(-4px) scale(1.04) !important;
+}
+.ec-search:hover .ec-search-input-wrap svg,
+.ec-search-input-wrap:hover svg{
+  color: #ffffff !important;
+  transform: scale(1.08);
+}
+.ec-search:hover .ec-search-input-wrap .ec-search-input,
+.ec-search-input-wrap:hover .ec-search-input{
+  color: #ffffff !important;
+}
 .ec-search-input-wrap:focus-within{
   background: var(--ec-white); border-color: var(--ec-white);
   box-shadow: 0 0 0 3px rgba(77,168,218,0.45);
@@ -371,6 +387,39 @@ body{margin:0;font-family:'Inter',sans-serif;}
 .site-nav{ display:flex; align-items:center; gap:4px; }
 .site-nav a{ color:rgba(255,255,255,0.85); text-decoration:none; font-size:14.5px; padding:10px 12px; border-radius:10px; }
 .site-nav a:hover{ background:rgba(255,255,255,0.1); color:#fff; }
+.site-nav input[type="text"]{
+  border:1px solid rgba(255,255,255,0.25);
+  border-radius:999px;
+  padding:10px 14px;
+  background:rgba(255,255,255,0.14);
+  color:#fff;
+  min-width:180px;
+  transition:all .25s ease;
+}
+.site-nav input[type="text"]::placeholder{ color:rgba(255,255,255,0.72); }
+.site-nav input[type="text"]:hover,
+.site-nav input[type="text"]:focus{
+  background:rgba(255,255,255,0.28);
+  border-color:rgba(255,255,255,0.9);
+  box-shadow:0 0 0 4px rgba(77,168,218,0.3), 0 16px 34px rgba(0,0,0,0.22);
+  transform:translateY(-2px) scale(1.02);
+  outline:none;
+}
+.site-nav button{
+  border:none;
+  border-radius:999px;
+  padding:10px 14px;
+  background:#fff;
+  color:#0A2540;
+  font-weight:700;
+  transition:all .25s ease;
+}
+.site-nav button:hover{
+  background:#4DA8DA;
+  color:#fff;
+  box-shadow:0 12px 24px rgba(0,0,0,0.2);
+  transform:translateY(-2px) scale(1.03);
+}
 #ec-header-mount{ display:flex; }
 .toggle-row{ position:fixed; bottom:18px; right:18px; z-index:200; display:flex; gap:8px; }
 .toggle-row button{
