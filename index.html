@@ -514,139 +514,571 @@ function mkCourse(c) {
   };
 }
 
-const COURSE_CATEGORIES = [
-  {
-    id: "health-safety", name: "Health & Safety", slug: "health-safety",
-    cluster: "Core Workplace Safety", icon: "🛡️",
-    blurb: "Foundational to certified-level health & safety qualifications.",
-    detailedListPending: false,
-    courses: [
-      mkCourse({ title: "Award in Workplace Health & Safety", level: "Level 2", duration: "3 Days", assessment: "Assessment + MCQ" }),
-      mkCourse({ title: "Award in Workplace Health & Safety", level: "Level 3", duration: "7 Days", assessment: "Assessment + MCQ" }),
-      mkCourse({ title: "Award in Workplace Health & Safety", level: "Level 4", duration: "10 Days", assessment: "Assessment + MCQ" }),
-      mkCourse({ title: "Award in Certified Safety Officer (CSO)", level: "Certified", duration: "45 Days", assessment: "Assignment + Assessment" }),
-      mkCourse({ title: "Award in Certified Safety Engineer (CSE)", level: "Certified", duration: "45 Days", assessment: "Assignment + Assessment" }),
-      mkCourse({ title: "Award in Certified Safety Supervisor (CSS)", level: "Certified", duration: "45 Days", assessment: "Assignment + Assessment" }),
-      mkCourse({ title: "Award in Certified Safety Trainer (CST)", level: "Certified", duration: "45 Days", assessment: "Assignment + Assessment" }),
-      mkCourse({ title: "Award in Certified Safety Manager (CSM)", level: "Certified", duration: "45 Days", assessment: "Assignment + Assessment" }),
-      mkCourse({ title: "Award in Certified Safety and Health Manager (CSHM)", level: "Certified", duration: "45 Days", assessment: "Assignment + Assessment" }),
-    ],
-  },
-  {
-    id: "construction-process-safety", name: "Construction & Process Safety", slug: "construction-process-safety",
-    cluster: "Core Workplace Safety", icon: "🚧",
-    blurb: "Process safety, confined space, working at height and scaffolding qualifications.",
-    detailedListPending: false,
-    courses: [
-      mkCourse({ title: "Award in Process Safety Management", level: "Level 3", duration: "10 Days", assessment: "Assessment + MCQ" }),
-      mkCourse({ title: "Award in Confined Space Safety", level: "Award", duration: "Flexible", assessment: "Practical + Assessment" }),
-      mkCourse({ title: "Award in Work at Height Safety", level: "Award", duration: "Flexible", assessment: "Practical + Assessment" }),
-      mkCourse({ title: "Award in Scaffolding Safety", level: "Award", duration: "Flexible", assessment: "Practical + Assessment" }),
-    ],
-  },
-  {
-    id: "lifting-rigging", name: "Lifting & Rigging", slug: "lifting-rigging",
-    cluster: "Operator & Lifting", icon: "🏗️",
-    blurb: "Safe lifting, slinging, rigging and crane/forklift operator qualifications.",
-    detailedListPending: false,
-    courses: [
-      mkCourse({ title: "Award in Lifting & Rigging Safety", level: "Level 2", duration: "Flexible", assessment: "Assessment" }),
-      mkCourse({ title: "Award in Lifting & Rigging Safety", level: "Level 3", duration: "Flexible", assessment: "Assessment" }),
-      mkCourse({ title: "Award in Basic Rigger and Signalman", level: "Level 2", duration: "Flexible", assessment: "Practical + Written" }),
-      mkCourse({ title: "Award in Principles of Rigger and Signalman", level: "Level 3", duration: "Flexible", assessment: "Practical + Written" }),
-      mkCourse({ title: "Award in Advanced Rigger and Signalman", level: "Level 4", duration: "Flexible", assessment: "Practical + Written" }),
-      mkCourse({ title: "Award in Lifting Supervisor", level: "Award", duration: "Flexible", assessment: "Assessment" }),
-      mkCourse({ title: "Safe Forklift Operations", level: "Award", duration: "Flexible", assessment: "Practical + Assessment" }),
-      mkCourse({ title: "Safe Gantry Crane Operation", level: "Award", duration: "Flexible", assessment: "Practical + Assessment" }),
-    ],
-  },
-  {
-    id: "hazard-management", name: "Hazard Management", slug: "hazard-management",
-    cluster: "Environment & Sustainability", icon: "⚠️",
-    blurb: "HAZOP leadership, engineering HAZOPs and hazardous waste emergency response.",
-    detailedListPending: false,
-    courses: [
-      mkCourse({ title: "Award in HAZOP Leadership and Management", level: "Award", duration: "Flexible", assessment: "Assessment" }),
-      mkCourse({ title: "Award in HAZOPs for Engineers & Technicians", level: "Award", duration: "Flexible", assessment: "Assessment" }),
-      mkCourse({ title: "Award in Hazardous Waste Operations and Emergency Response (HAZWOPER)", level: "Award", duration: "Flexible", assessment: "Assessment" }),
-    ],
-  },
-  {
-    id: "fire-safety", name: "Fire Safety", slug: "fire-safety",
-    cluster: "Core Workplace Safety", icon: "🔥",
-    blurb: "Fire prevention, detection and fire safety management qualifications.",
-    detailedListPending: false,
-    courses: [
-      mkCourse({ title: "Award in Fire Safety", level: "Level 2", duration: "Flexible", assessment: "Assessment + MCQ" }),
-      mkCourse({ title: "Award in Fire Safety Management", level: "Level 3", duration: "Flexible", assessment: "Assessment + MCQ" }),
-    ],
-  },
-  {
-    id: "first-aid", name: "First Aid", slug: "first-aid",
-    cluster: "Core Workplace Safety", icon: "➕",
-    blurb: "Emergency first aid, CPR and life-support qualifications.",
-    detailedListPending: false,
-    courses: [
-      mkCourse({ title: "Award in Emergency First Aid at Work", level: "Level 2", duration: "Flexible", assessment: "Practical + Assessment" }),
-      mkCourse({ title: "Award in First Aid at Work", level: "Level 3", duration: "Flexible", assessment: "Practical + Assessment" }),
-      mkCourse({ title: "Award in Basic Life Support (BLS) and AED", level: "Award", duration: "Flexible", assessment: "Practical" }),
-    ],
-  },
-  {
-    id: "food-safety", name: "Food Safety", slug: "food-safety",
-    cluster: "Core Workplace Safety", icon: "🍽️",
-    blurb: "Food handling and hygiene compliance qualification.",
-    detailedListPending: false,
-    courses: [
-      mkCourse({ title: "Award in Food Safety", level: "Level 3", duration: "Flexible", assessment: "Assessment + MCQ" }),
-    ],
-  },
-  {
-    id: "environment", name: "Environment", slug: "environment",
-    cluster: "Environment & Sustainability", icon: "🌿",
-    blurb: "Environmental principles, management and legal compliance qualifications.",
-    detailedListPending: false,
-    courses: [
-      mkCourse({ title: "Award in Environmental Principles", level: "Level 2", duration: "Flexible", assessment: "Assessment" }),
-      mkCourse({ title: "Award in Environmental Management", level: "Level 3", duration: "Flexible", assessment: "Assessment" }),
-      mkCourse({ title: "Award in Environmental Management & Legal Compliance", level: "Level 4", duration: "Flexible", assessment: "Assessment" }),
-    ],
-  },
-  {
-    id: "environmental-sustainability", name: "Environmental Sustainability", slug: "environmental-sustainability",
-    cluster: "Environment & Sustainability", icon: "♻️",
-    blurb: "Sustainability practice and ESG qualifications.",
-    detailedListPending: false,
-    courses: [
-      mkCourse({ title: "Award in Environmental Sustainability", level: "Level 2", duration: "Flexible", assessment: "Assessment" }),
-      mkCourse({ title: "Award in Environmental Sustainability", level: "Level 3", duration: "Flexible", assessment: "Assessment" }),
-      mkCourse({ title: "Award in Environmental Social and Governance (ESG)", level: "Award", duration: "Flexible", assessment: "Assessment" }),
-    ],
-  },
-  {
-    id: "oil-gas-safety", name: "Oil & Gas Safety", slug: "oil-gas-safety",
-    cluster: "Industry Specific", icon: "🛢️",
-    blurb: "Sector-specific safety and safety management qualifications for oil & gas.",
-    detailedListPending: false,
-    courses: [
-      mkCourse({ title: "Award in Oil & Gas Safety", level: "Level 2", duration: "Flexible", assessment: "Assessment" }),
-      mkCourse({ title: "Award in Oil & Gas Safety Management", level: "Level 3", duration: "Flexible", assessment: "Assessment" }),
-    ],
-  },
-  {
-    id: "diploma-programmes", name: "Diploma Programmes", slug: "diploma-programmes",
-    cluster: "Certifications & Diplomas", icon: "🎓",
-    blurb: "Extended diploma-level qualifications in HSE and quality management.",
-    detailedListPending: false,
-    courses: [
-      mkCourse({ title: "Diploma in Occupational Health & Safety", level: "Diploma", duration: "6 Months", assessment: "Assignments + Assessment" }),
-      mkCourse({ title: "Diploma in Health Safety & Environment", level: "Diploma", duration: "6 Months", assessment: "Assignments + Assessment" }),
-      mkCourse({ title: "Diploma in Health Safety & Environment", level: "Diploma", duration: "6 Months", assessment: "Assignments + Assessment", slugOverride: "diploma-health-safety-environment-2" }),
-      mkCourse({ title: "Advanced Diploma in Health Safety & Environment", level: "Diploma", duration: "6 Months", assessment: "Assignments + Assessment" }),
-      mkCourse({ title: "Diploma in Industrial Quality Management", level: "Diploma", duration: "6 Months", assessment: "Assignments + Assessment" }),
-    ],
-  },
-];
+const ATTACHED_COURSE_DATA = `SL.NO,COURSE CODE,CATEGORY,ACCREDITATION BODY,CERTIFICATION,LEVEL,DURATION,ASSESSMENT TYPE,SYLLABUS
+1,,Health & Safety,EOSH UK,Award in Workplace Health & Safety,Level 2,3 days,MCQ,"#Workplace Health & Safety Overview
+#Health and Safety Laws
+#Identification of hazards and evaluation of risks
+#Systems for managing safety
+#Occupational Ergonomics
+#Fire Prevention
+#Workplace Security
+#Equipment for personal protection (PPE)
+#Communication regarding health and safety"
+2,,Health & Safety,EOSH UK,Award in Workplace Health & Safety,Level 3,7 days,MCQ,"#Introduction to Health & Safety
+#Risk Assessment
+#Workplace Hazards
+#Emergency Procedures
+#Health and Safety Management Systems
+#Communication and Training
+#Incident Investigation and Reporting
+#Health and Safety Culture"
+3,,Health & Safety,EOSH UK,Award in Workplace Health & Safety,Level 4,10 days,MCQ,"#Advanced Workplace Health and Safety#Workplace Ergonomics and Human Factors
+#Occupational Health and Hygiene
+#Risk Assessment and Management
+#Principles of Health and Safety Management
+#Environmental Management and Sustainability
+#Construction Safety Management
+#Hazardous Substances and Chemical Safety
+#Workplace Incident Investigation and Reporting
+#Safety Culture and Leadership"""
+4,,"=AI(""Fill an appropriate value for this cell based on the table context"")","=AI(""Fill an appropriate value for this cell based on the table context"")","=AI(""Fill an appropriate value for this cell based on the table context"")",Level 4,10 days,MCQ,"#Introduction to Process Safety Management
+#Process Safety Regulations and Standards
+#Hazard Identification and Risk Assessment in #Process Safety
+#Process Safety Management Systems
+#Process Safety Leadership and Culture
+#Process Safety Documentation and Procedures
+#Process Safety Training and Competency
+#Process Safety Incident Investigation and Analysis
+#Emergency Response and Preparedness
+#Auditing and Continuous Improvement in Process Safety"
+5,,"=AI(""Fill an appropriate value for this cell based on the table context"")","=AI(""Fill an appropriate value for this cell based on the table context"")",Award in HSE Manager,NIL,4-5 days,MCQ,"#Introduction to HSE Management Principles and Practices
+#HSE Regulations, Standards, and Compliance
+#Risk Assessment and Management in HSE
+#Incident Investigation and Root Cause Analysis
+#Occupational Health and Industrial Hygiene
+#Environmental Management and Sustainability
+#HSE Management Systems and Policies
+#Emergency Preparedness and Response
+#HSE Auditing and Performance Measurement
+#Leadership and Communication for HSE Managers"
+6,,"=AI(""Fill an appropriate value for this cell based on the table context"")","=AI(""Fill an appropriate value for this cell based on the table context"")",Award in Health & Safety for Workers,NIL,4-5 days,MCQ,"#Introduction to Health & Safety in the Workplace
+#Workplace Hazards and Risk Assessment
+#Safe Working Practices and Procedures
+#Personal Protective Equipment (PPE)
+#Fire Safety and Emergency Procedures
+#Manual Handling and Ergonomics
+#Electrical Safety
+#Hazardous Substances and Chemical Safety
+#First Aid and Accident Prevention
+#Promoting a Culture of Safety in the Workplace"
+7,,"=AI(""Fill an appropriate value for this cell based on the table context"")","=AI(""Fill an appropriate value for this cell based on the table context"")", Train the Trainer-HSE,NIL,7-10 days,MCQ,"#Introduction to HSE Training and its Significance
+#Adult Learning Theories and Training Strategies
+#Effective Communication and Presentation Skills
+#Training Needs Assessment and Program Design
+#Health and Safety Regulations and Legal Compliance
+#Hazard Identification, Risk Assessment, and Control Measures
+#Occupational Health and Hygiene Practices
+#Fire Safety, Emergency Preparedness, and Response
+#Environmental Protection and Sustainability Principles
+#Ergonomics and Workplace Wellness
+#Incident Investigation and Root Cause Analysis
+#Evaluation and Continuous Improvement of HSE Training"
+8,,Fire & Safety,EOSH UK,Award in Basic Fire Safety,Level 2,3 days,ASSESSMENT + MCQ,"#Introduction to Fire Safety
+#Fire Triangle and Fire Spread
+#Common Causes of Fires
+#Fire Prevention Measures
+#Understanding Fire Extinguishers
+#Emergency Evacuation Procedures
+#Roles and Responsibilities in Fire Safety
+#Fire Safety Signs and Equipment
+#Fire Safety in Different Settings (e.g., offices, retail, hospitality)
+#Fire Safety Risk Assessment Basics"
+9,,Fire & Safety,EOSH UK, Award in Fire Safety Management,Level 3,7 days,ASSESSMENT + MCQ,"#Introduction to Fire Safety Management
+#Fire Safety Legislation and Regulations
+#Fire Risk Assessment and Control Measures
+#Emergency Planning and Evacuation Procedures
+#Fire Safety Policies and Procedures Development
+#Fire Safety Auditing and Inspections
+#Fire Safety Training and Communication
+#Fire Safety Management Systems
+#Managing Fire Safety in Different Settings (e.g., workplaces, residential buildings)
+#Promoting a Culture of Fire Safety"
+10,,Fire & Safety,EOSH UK,Award in Fire & Industrial Safety,Level 2,3 days,ASSESSMENT + MCQ,"#Introduction to Fire Safety in Industrial Settings
+#Fire Prevention Measures in Industrial Facilities
+#Fire Safety Equipment and Systems for Industrial Environments
+#Emergency Evacuation Procedures for Industrial Settings
+#Hazardous Materials and Fire Safety
+#Electrical Safety in Industrial Settings
+#Industrial Fire Risk Assessment
+#Fire Safety Plans and Procedures for Industrial Facilities
+#Fire Safety Training for Industrial Workers
+#Promoting Fire Safety Culture in Industrial Environments
+"
+11,,Fire & Safety,EOSH UK,Award in Fire & Industrial Safety,Level 3,7 days,ASSESSMENT + MCQ,"#Advanced Fire Safety Management in Industrial Environments
+#Industrial Fire Hazards and Risk Assessment
+#Fire Safety Strategies for Complex Industrial Facilities
+#Emergency Response Planning and Incident Management
+#Fire Safety Legislation and Regulatory Compliance in Industrial Settings
+#Advanced Fire Safety Equipment and Systems for Industrial Environments
+#Industrial Fire Safety Audits and Inspections
+#Hazardous Materials Handling and Storage in Industrial Settings
+#Fire Safety Training and Competency Development for Industrial Managers
+#Developing and Implementing Fire Safety Policies and Procedures in Industrial Contexts"
+12,,Fire & Safety,EOSH UK,Award in Fire Safety for Mangers,NIL,4-5 days,ASSESSMENT + MCQ,"#Introduction to Fire Safety for Managers
+#Fire Safety Legislation and Regulatory Requirements
+#Roles and Responsibilities of Managers in Fire Safety
+#Fire Risk Assessment and Control Measures
+#Fire Prevention Strategies in the Workplace
+#Emergency Planning and Evacuation Procedures
+#Fire Safety Equipment and Systems for Managers
+#Fire Safety Training and Communication
+#Monitoring and Reviewing Fire Safety Measures
+#Managing Fire Safety in Specific Environments (e.g., offices, retail, hospitality)
+"
+13,,Fire & Safety,EOSH UK,Award in Fire Safety & Hazard Management,NIL,4-5 days,ASSESSMENT + MCQ,"#Introduction to Fire Safety & Hazard Management
+#Fire Safety Legislation and Regulations
+#Fire Risk Assessment and Control Measures
+#Hazard Identification and Evaluation
+#Emergency Planning and Response
+#Occupational Health and Safety Principles
+#Chemical and Hazardous Substances Management
+#Electrical Safety and Fire Prevention
+#Fire Safety Systems and Equipment
+#Incident Investigation and Reporting"
+14,,Fire & Safety,EOSH UK,Award in Firefighting & Fire Extinguisher Safety,NIL,4-5 days,ASSESSMENT + MCQ,"#Introduction to Fire Safety and Firefighting
+#Understanding Fire Behavior and Fire Triangle
+#Types of Fire and Appropriate Firefighting Methods
+#Firefighting Equipment and Tools
+#Fire Extinguisher Types and Operation
+#Fire Safety Regulations and Legal Requirements
+#Fire Emergency Response Procedures
+#Identifying Fire Hazards and Assessing Risks
+#Personal Protective Equipment (PPE) for Firefighters
+#Fire Incident Simulation and Practical Exercises"
+15,,Fire & Safety,EOSH UK,Award in Train The Trainer- Fire Safety,NIL,7-10 days,ASSESSMENT + MCQ,"#Introduction to Train The Trainer – Fire Safety
+#Fire Safety Legislation and Regulations
+#Principles of Adult Learning
+#Effective Communication and Presentation Skills
+#Designing Fire Safety Training Programs
+#Fire Risk Assessment and Hazard Identification
+#Fire Prevention Strategies and Best Practices
+#Emergency Procedures and Evacuation Planning
+#Firefighting Equipment and Practical Demonstrations
+#Assessing Learner Performance and Providing Feedback"
+16,,Fire & Safety,EOSH UK,Award in Hot Work Safety,NIL,3-4 days,WRITTEN ASSESSMENT + MCQ,"#Introduction to Hot Work Safety
+#Legal Framework and International Standards for Hot Work
+#Hazards and Risks Associated with Hot Work
+#Hot Work Permits and Safe Systems of Work
+#Fire Prevention and Control Measures during Hot Work
+#Personal Protective Equipment (PPE) and Safe Practices
+#Handling Flammable and Combustible Materials
+#Hot Work in Confined Spaces
+#Emergency Planning and Response
+#Incident Reporting and Investigation in Hot Work Operations"
+17,,First Aid,EOSH UK,"
+Award in Emergency First Aid at work",Level 2,3 days,ASSESSMENT + MCQ,"#Introduction to emergency first aid and legal requirements in the workplace
+#Assessing the incident and ensuring personal safety
+#Understanding and managing the unconscious casualty
+#Cardiopulmonary resuscitation (CPR) techniques
+#Dealing with choking emergencies
+#Managing bleeding and wounds effectively
+#Recognizing and responding to common workplace injuries, such as fractures and burns
+#First aid for shock and anaphylaxis
+#Emergency response to medical conditions, including heart attacks and strokes
+#Communication and reporting during workplace emergencies"
+18,,First Aid,EOSH UK,"
+Award in First Aid at work",Level 3,7 days,ASSESSMENT + MCQ,"# Legal requirements and responsibilities of a workplace first aider
+# Assessing and managing an incident
+# Cardiopulmonary resuscitation (CPR) for adults, children, and infants
+# Automated external defibrillator (AED) operation and use
+# First aid for choking and airway obstruction
+# Recognition and management of shock and circulatory emergencies
+# First aid for wounds, bleeding, and trauma
+# Fracture and dislocation management and immobilization techniques
+# Head and spinal injuries: assessment and first aid interventions
+# Managing burns, scalds, and chemical exposures
+# First aid for eye injuries and foreign body removal
+# Recognizing and responding to medical emergencies, such as heart attacks and strokes
+# Managing allergic reactions and anaphylaxis
+# First aid for seizures, diabetes, and epilepsy
+# Communication and coordination during workplace incidents"
+19,,First Aid,EOSH UK,Award in First Aid & AED,NIL,4-5 days,ASSESSMENT + MCQ,"# Introduction to First Aid
+# Understanding the Role of a First Aider
+# Primary Survey and Assessing the Scene
+# Cardiopulmonary Resuscitation (CPR)
+# Use of Automated External Defibrillator (AED)
+# Dealing with Choking and Airway Obstruction
+# Managing Bleeding and Wound Care
+# Fractures, Sprains, and Strains
+# Burns and Scalds
+# Medical Conditions: Stroke, Heart Attack, Seizures
+# Environmental Emergencies: Heatstroke, Hypothermia"
+20,,First Aid,EOSH UK,Award in CPR & First Aid,NIL,4-5 days,ASSESSMENT + MCQ,"# Introduction to CPR and First Aid
+# Legal and Ethical Considerations in First Aid
+# Assessing the Scene and Ensuring Safety
+# Primary Survey and Basic Life Support (BLS)
+# Cardio Pulmonary Resuscitation (CPR) for Adults
+# CPR for Children and Infants
+# Use of Automated External Defibrillator (AED)
+# Choking and Airway Obstruction
+# Managing Bleeding and Wound Care
+# Fractures, Sprains, and Strains
+# Burns, Electrical Shock, and Chemical Exposure
+# Medical Emergencies: Stroke, Heart Attack, Allergic Reactions"
+21,,First Aid,EOSH UK,Award in Basic Life Support (BLS),NIL,2-3 days,ASSESSMENT + MCQ,"# Introduction to Basic Life Support (BLS)
+# Roles and Responsibilities of a First Responder
+# Legal and Ethical Considerations in Emergency Care
+# Scene Assessment and Personal Safety
+# Emergency Action Principles and Casualty Assessment
+# Recognition of Cardiac Arrest and Medical Emergencies
+# Airway Management and Recovery Position
+# Adult Basic Life Support (BLS) Procedures
+# Cardiopulmonary Resuscitation (CPR) for Adults
+# CPR for Children and Infants
+# Use of Automated External Defibrillator (AED)
+# Choking and Airway Obstruction Management
+# Communication and Handover to Emergency Services
+# Infection Prevention and Control Measures
+# Practical Skills Assessment and Scenario-Based Training"
+22,,Environmental Sustainability,EOSH UK,Award in Introduction to Environmental Sustainability,Level 2,3 days,Assessments + MCQ,"#Introduction to Environmental Sustainability 
+#Understanding Climate Change and its Impacts 
+#Conservation of Natural Resources 
+#Biodiversity and Ecosystem Services 
+#Sustainable Energy and Renewable Resources 
+#Sustainable Water Management 
+#Waste Management and Recycling 
+#Sustainable Transportation 
+#Sustainable Consumption and Production 
+#Sustainable Agriculture and Food Systems 
+#Sustainable Urban Development 
+#Ethical and Social Dimensions of Environmental Sustainability"
+23,,Environmental Sustainability,EOSH UK,Award in Environmental Sustainability,Level 3,7 days,Assessments + MCQ,"#Introduction to Environmental Sustainability Principles 
+#Environmental Policy and Governance 
+#Sustainable Resource Management 
+#Sustainable Business Practices and Corporate Social Responsibility 
+#Environmental Impact Assessment and Mitigation 
+#Sustainable Supply Chain Management 
+#Climate Change Adaptation and Mitigation 
+#Stakeholder Engagement and Communication in Sustainability 
+#Sustainable Land Use Planning and Management 
+#Sustainable Water Management and Conservation 
+#Sustainable Energy Systems and Renewable Technologies 
+#Monitoring, Reporting, and Evaluation of Environmental Sustainability"
+24,,Environmental Sustainability,EOSH UK,Award in Sustainability in Building Structure,,4-5 days,Assessments + MCQ,"#Introduction to Sustainable Building Design and Construction 
+#Sustainable Building Materials and Technologies 
+#Energy Efficiency and Renewable Energy in Buildings 
+#Green Design Principles and Strategies 
+#Water Efficiency and Sustainable Plumbing Systems 
+#Indoor Environmental Quality and Health Considerations 
+#Sustainable Site Planning and Landscaping 
+#Life Cycle Assessment and Environmental Impact Analysis 
+#Sustainable Construction Methods and Techniques 
+#Waste Management and Recycling in Construction 
+#Integration of Sustainability in Building Codes and Standards 
+#Economic and Financial Considerations in Sustainable Building"
+25,,Environmental Sustainability,EOSH UK,Award in Environmental Sustainability Skills for Managers,NIL,4-5 days,Assessments + MCQ,"#Introduction to Sustainable Building Design and Construction 
+#Sustainable Building Materials and Technologies 
+#Energy Efficiency and Renewable Energy in Buildings 
+#Green Design Principles and Strategies 
+#Water Efficiency and Sustainable Plumbing Systems 
+#Indoor Environmental Quality and Health Considerations 
+#Sustainable Site Planning and Landscaping 
+#Life Cycle Assessment and Environmental Impact Analysis 
+#Sustainable Construction Methods and Techniques 
+#Waste Management and Recycling in Construction 
+#Integration of Sustainability in Building Codes and Standards 
+#Economic and Financial Considerations in Sustainable Building"
+26,,Environmental Sustainability,EOSH UK,Award in Environmental Sustainability Skills for Workforce,NIL,4-5 days,Assessments + MCQ,"#Introduction to Environmental Sustainability for Managers 
+#Environmental Challenges and Global Trends 
+#Sustainable Development and Corporate Social Responsibility 
+#Environmental Regulations and Compliance #Sustainable Business Strategies and Integration 
+#Sustainable Supply Chain Management 
+#Stakeholder Engagement and Communication #Sustainability Reporting and Metrics 
+#Environmental Risk Management 
+#Innovation and Technology for Sustainability 
+#Leadership and Change Management in Sustainability 
+#Monitoring and Evaluation of Environmental Performance"
+27,,Environmental Sustainability,EOSH UK,Award in Sustainability in Waste Water Management,NIL,4-5 days,Assessments + MCQ,"#Introduction to Environmental Sustainability 
+#Understanding Environmental Challenges 
+#Sustainable Resource Management 
+#Waste Reduction and Recycling 
+#Energy Conservation in the Workplace 
+#Water Conservation and Efficiency 
+#Sustainable Transportation and Commuting 
+#Sustainable Procurement and Supply Chain 
+#Green Office Practices and Paperless Initiatives 
+#Environmental Awareness and Behavior Change 
+#Stakeholder Engagement and Collaboration 
+#Monitoring and Reporting on Environmental Sustainability"
+28,,Environmental Sustainability,EOSH UK,Award in Environmental Sustainable Monitoring at Workplace,NIL,4-5 days,Assessments + MCQ,"#Introduction to Wastewater Management and Sustainability 
+#Wastewater Treatment Processes and Technologies 
+#Resource Recovery from Wastewater 
+#Water Reuse and Recycle in Wastewater Management 
+#Sustainable Design and Operation of Wastewater Treatment Plants 
+#Nutrient Removal and Management in Wastewater 
+#Energy Efficiency and Renewable Energy in Wastewater Treatment 
+#Sustainable Sludge and Biosolids Management 
+#Pollution Prevention and Environmental Compliance 
+#Climate Change Resilience in Wastewater Management 
+#Stakeholder Engagement and Community Outreach in Wastewater Management 
+#Monitoring and Evaluation of Sustainable Wastewater Management Practices"
+29,,Environmental Sustainability,EOSH UK,Award in Life Safety & Environmental Protection,NIL,4-5 days,Assessments + MCQ,"#Introduction to Environmental Sustainable Monitoring 
+#Key Environmental Indicators and Metrics 
+#Data Collection Methods and Techniques 
+#Environmental Monitoring Equipment and Tools 
+#Interpretation and Analysis of Environmental Data 
+#Reporting and Communication of Monitoring Results 
+#Compliance with Environmental Regulations and Standards 
+#Energy and Resource Consumption Monitoring 
+#Waste Management and Recycling Monitoring 
+#Water Conservation and Quality Monitoring 
+#Air Emissions Monitoring and Control 
+#Continuous Improvement in Environmental Performance"
+30,,Environmental Sustainability,EOSH UK,Award in Environmental Social and Governance (ESG),NIL,7-10 days,Assessments + MCQ,"#Introduction to Environmental, Social and Governance (ESG) 
+#Sustainability Frameworks
+#Sustainable Management Systems 
+#Sustainable Supply Chain Management 
+#Environmental Stewardship 
+#Social Responsibility 
+#Effective Governance 
+#ESG Reporting 
+#Environmental Conservation 
+#Community Engagement 
+#Ethical Leadership 
+#Sustainable Finance 
+#Climate Actions 
+#Corporate Social Responsibility (CSR) programs 
+#ESG Risk Management 
+#Capstone Project"
+31,,Environment,EOSH UK,Award in Environmental Principles,NIL,3 days,Assessments + MCQ,#Introduction to Environmental Principles #Environmental Legislation and Regulations #Sustainable Development and its Importance #Environmental Impact Assessment #Pollution Control and Prevention Measures #Waste Management and Recycling Practices #Conservation of Natural Resources #Biodiversity and Ecosystem Protection #Climate Change and Mitigation Strategies #Corporate Social Responsibility and Environmental Management
+32,,Environment,EOSH UK,Award in Environmental Management,Level 3,7 days,Assessments + MCQ,#Introduction to Environmental Management #Environmental Legislation and Regulatory Frameworks #Environmental Policy and Planning #Environmental Risk Assessment and Management #Pollution Prevention and Control Measures #Sustainable Resource Management #Environmental Auditing and Performance Monitoring #Corporate Social Responsibility and Sustainability #Stakeholder Engagement and Communication #Environmental Management Systems Implementation
+33,,Environment,EOSH UK,Award in Environmental Management & Legal Compliance,Level 4,10 days,Assessments + MCQ,#Introduction to Environmental Management & Legal Compliance #Environmental Legislation and Regulatory Frameworks #Environmental Risk Assessment and Management #Environmental Auditing and Compliance Monitoring #Developing an Environmental Management System #Legal Obligations and Compliance Strategies #Sustainability and Corporate Social Responsibility #Environmental Impact Assessment #Pollution Prevention and Control Measures #Environmental Management Reporting and Communication
+34,,Environment,EOSH UK,Award in Environmental and Social Action Plan (ESAP) for Managers,NIL,4-5 days,Assessments + MCQ,#Introduction to Environmental and Social Sustainability #Regulatory Frameworks and Compliance #Environmental Impact Assessment #Social Impact Assessment #Stakeholder Engagement and Communication #Environmental and Social Risk Management #Sustainable Supply Chain Management #Energy Efficiency and Renewable Energy #Waste Management and Recycling #Water Resource Management #Reporting and Performance Measurement #Integrating Sustainability into Organizational Strategy
+35,,Environment,EOSH UK,"Award in EHS Guidelines-Environment, Health & Safety",NIL,4-5 days,Assessments + MCQ,"#Introduction to Environment, Health & Safety (EHS) Management #Regulatory Frameworks and Compliance #Hazard Identification and Risk Assessment #Workplace Safety and Accident Prevention #Occupational Health and Industrial Hygiene #Emergency Preparedness and Response #Environmental Management Systems (EMS) #Waste Management and Pollution Control #Chemical Safety and Hazardous Materials Management #Ergonomics and Human Factors in the Workplace #Incident Investigation and Root Cause Analysis #Leadership and Communication in EHS"
+36,,Environment,EOSH UK,Award in Environmental Management System Audit Techniques & Best Practices,NIL,4-5 days,Assessments + MCQ,#Introduction to Environmental Management Systems (EMS) #Environmental Regulations and Standards #Audit Principles and Practices #Audit Planning and Preparation #Audit Techniques and Methodologies #Conducting On-site Audits #Non-conformity Identification and Reporting #Root Cause Analysis and Corrective Action #Audit Reporting and Follow-up #Continuous Improvement in Environmental Management Systems #Stakeholder Engagement and Communication in Auditing #Best Practices in Environmental Auditing
+37,,Environment,EOSH UK,Award in Environmental Quality Monitoring & Analysis,NIL,4-5 days,Assessments + MCQ,"#Introduction to Environmental Quality Monitoring #Sampling Techniques for Air, Water, and Soil #Analytical Methods for Environmental Monitoring #Quality Assurance/Quality Control in Environmental Analysis #Data Management and Interpretation #Monitoring and Analysis of Air Quality Parameters #Monitoring and Analysis of Water Quality Parameters #Monitoring and Analysis of Soil Quality Parameters #Bio monitoring and Ecological Assessment #Remote Sensing and GIS Applications in Environmental Monitoring #Risk Assessment and Decision-Making in Environmental Quality #Emerging Trends in Environmental Monitoring and Analysis"
+38,,Lifting & Rigging,EOSH UK,Award in Lifting & Rigging Safety,Level 2,3 days,Assessments + MCQ,#Introduction to Lifting & Rigging Safety #Legal and Regulatory Requirements #Types of Lifting Equipment #Safe Use and Inspection of Lifting Equipment #Selection and Inspection of Lifting Accessories #Proper Rigging Techniques #Load Calculation and Center of Gravity #Communication and Signals for Lifting Operations #Risk Assessment and Hazard Control #Emergency Procedures and Rescue Planning #Lifting and Rigging Safety in Specific Industries #Incident Reporting and Investigation
+39,,Lifting & Rigging,EOSH UK,Award in Lifting & Rigging Safety,Level 3,7 days,Assessments + MCQ,"#Advanced Lifting & Rigging Safety Principles #Legislation, Standards, and Industry Best Practices #Risk Assessment and Management for Complex Lifting Operations #Advanced Rigging Techniques and Configurations #Inspection and Maintenance of Complex Lifting Equipment #Critical Lift Planning and Execution #Lifting and Rigging Safety in Confined Spaces #Overhead Crane Operations and Safety #Slinging and Load Handling of Irregular and Hazardous Loads #Safe Lifting in High-Risk Environments #Specialized Lifting Equipment and Attachments #Incident Investigation and Lessons Learned"
+40,,Lifting & Rigging,EOSH UK,Award in Basic Rigger and Signalman,Level 2,3 days,Assessments + MCQ,#Introduction to Rigging and Signaling #Legislation and Safety Regulations #Types of Rigging Equipment and Accessories #Rigging Techniques for Various Loads #Load Calculation and Weight Estimation #Inspection and Maintenance of Rigging Equipment #Basic Knots and Hitches #Proper Hand Signals and Communication Methods #Lifting Equipment and Machinery Operations #Risk Assessment and Hazard Control #Safe Work Practices and Procedures #Incident Prevention and Emergency Response
+41,,Lifting & Rigging,"EOSH UK
+",Award in Principles of Rigger and Signalman,Level 3,7 days,Assessments + MCQ,#Advanced Rigging Techniques and Equipment Selection #Load Calculation and Weight Estimation for Complex Loads #Risk Assessment and Management in Rigging Operations #Critical Lift Planning and Execution #Rigging for Suspended Loads and Overhead Lifting #Specialized Rigging Configurations #Rigging Inspection and Maintenance Procedures #Signalman Communication Techniques for Complex Lifting Operations #Crane Operations and Coordination with Riggers and Signalmen #Safety Standards and Compliance in Rigging and Signaling #Incident Investigation and Lessons Learned #Emergency Response and Rescue Procedures
+42,,Lifting & Rigging,EOSH UK,Award in Advanced Rigger and Signalman,Level 4,10 days,Assessments + MCQ,#Advanced Rigging Techniques for Complex Loads #Load Calculation and Weight Estimation for Critical Lifts #Structural Analysis for Rigging Operations #Specialized Rigging Configurations and Systems #Crane Selection and Configuration for Advanced Rigging #Advanced Signalman Communication Techniques #Risk Assessment and Management in High-Risk Lifting Operations #Critical Lift Planning and Execution Strategies #Crane Load Charts and Capacity Planning #Rigging Inspection and Maintenance for High-Risk Environments #Advanced Rescue and Emergency Response Procedures #Incident Investigation and Analysis in Rigging Operations
+43,,Lifting & Rigging,EOSH UK,Award in Lifting Supervisor,NIL,4-5 days,Assessments + MCQ,#Introduction to Lifting Operations and Supervision #Legislation and Regulations for Lifting Operations #Roles and Responsibilities of a Lifting Supervisor #Risk Assessment and Hazard Identification in Lifting Operations #Lifting Equipment and Selection Criteria #Planning and Coordination of Lifting Operations #Communication and Team Management in Lifting Operations #Safety Procedures and Controls for Lifting Operations #Incident Prevention and Emergency Preparedness #Monitoring and Supervising Lifting Operations #Documentation and Reporting in Lifting Supervision #Continuous Improvement and Best Practices in Lifting Operations
+44,,Lifting & Rigging,EOSH UK,Award in Lifting & Rigging Supervisor,NIL,4-5 days,Assessments + MCQ,#Introduction to Lifting and Rigging Operations #Legislation and Regulations for Lifting and Rigging #Roles and Responsibilities of a Lifting and Rigging Supervisor #Risk Assessment and Hazard Identification in Lifting and Rigging Operations #Lifting and Rigging Equipment and Selection Criteria #Planning and Coordination of Lifting and Rigging Operations #Communication and Leadership Skills for Lifting and Rigging Supervisors #Safety Procedures and Controls for Lifting and Rigging Operations #Incident Prevention and Emergency Preparedness #Monitoring and Supervising Lifting and Rigging Operations #Documentation and Reporting in Lifting and Rigging Supervision #Continuous Improvement and Best Practices in Lifting and Rigging Operations
+45,,Lifting & Rigging,EOSH UK,Award in Train The Trainer – Lifting & Rigging,NIL,7-10 days,Assessments + MCQ,#Introduction to Training and Adult Learning Principles #Training Needs Analysis for Lifting and Rigging #Developing Learning Objectives and Training Outcomes #Instructional Design for Lifting and Rigging Training Programs #Training Delivery Techniques and Methods #Visual Aids and Multimedia in Lifting and Rigging Training #Assessment and Evaluation of Trainee Competency #Training Session Planning and Time Management #Handling Difficult Trainees and Managing Training Challenges #Training Material Development for Lifting and Rigging #Training Program Quality Assurance and Continuous Improvement #Train the Trainer Practical Exercises and Feedback Sessions
+46,,Lifting & Rigging,EOSH UK,Award in Equipment Safety Inspection,NIL,4-5 days,Assessments + MCQ,#Introduction to Equipment Safety Inspection #Legal and Regulatory Requirements for Equipment Safety #Types of Equipment and Associated Hazards #Equipment Inspection Procedures and Techniques #Identifying and Assessing Equipment Defects and Damage #Safety Controls and Risk Mitigation Measures #Documentation and Reporting in Equipment Safety Inspection #Preventive Maintenance and Inspection Programs #Specialized Equipment Inspection #Calibration and Testing of Safety Devices #Inspection of Mobile and Heavy Equipment #Continuous Improvement in Equipment Safety Inspection
+47,,Lifting & Rigging,EOSH UK,Award in Banksman Safety Training,NIL,4-5 days,Assessments + MCQ,#Introduction to Banksman Safety Training #Legal and Regulatory Requirements for Flagging Operations #Roles and Responsibilities of a Banksman #Flagging Procedures and Techniques #Communication Skills for Banksman #Hazard Identification and Risk Assessment in Flagging Operations #Traffic Control Devices and Equipment #Traffic Management Plans and Work Zone Safety #Emergency Response and Incident Management #Flagging in Various Environments #Weather Conditions and their Impact on Flagging Operations #Continuous Improvement in Banksman Safety Practices
+48,,Lifting & Rigging,EOSH UK,Award in Rigger,Level 2,7 days,Practical Examination + MCQ,"#Roles and Responsibilities of the Rigger #Applicable Saudi Aramco Safety Standards and Regulations #Types of Lifting Equipment and Their Applications #Inspection and Rejection Criteria for Rigging Gear #Lifting Plans and Load Handling Procedures #Center of Gravity and Load Weight Estimation #Sling Selection, Angles, and Load Charts #Knots, Hitches, and Taglines Usage #Crane Hand Signals and Communication Protocols #Hazard Identification and Risk Assessment #Pre-Lift Safety Checks and Toolbox Talks #Lifting in Confined Spaces and Critical Lifts #Emergency Procedures and Incident Reporting #Hands-On Rigging and Lifting Exercises (Practical Assessment)"
+49,,Lifting & Rigging,EOSH UK,Award in Rigger,Level 3,7 days,Practical Examination + MCQ,"#Advanced Roles and Responsibilities of the Rigger #Standards and Regulations for Rigger #Complex Lifting Equipment and Their Applications #Inspection and Rejection Criteria for Advanced Rigging Gear #Critical Lift Planning and Execution #Advanced Load Weight Estimation and Center of Gravity Calculations #Sling Selection, Sling Angles, and Load Charts Interpretation #Advanced Knots, Hitches, and Taglines Usage #Crane Hand Signals and Communication Protocols for Complex Lifts #Hazard Identification and Risk Assessment in High-Risk Environments #Pre-Lift Safety Checks and Conducting Effective Toolbox Talks #Rigging Operations in Confined Spaces and Critical Lift Scenarios #Emergency Procedures and Incident Reporting for Advanced Rigging Operations #Hands-On Rigging and Lifting Exercises (Practical Assessment)"
+50,,First Aid,EOSH UK,Award in Basic Life Support and Safe Use of an Automated External Defibrillator (RQF),Level 2,3 days,Assessments + MCQ,"#Introduction to basic life support and the chain of survival #Recognizing and responding to a cardiac emergency #Assessing the casualty and calling for emergency medical services #Performing effective chest compressions and rescue breaths #Understanding the role and safe use of an automated external defibrillator (AED) #Operating an AED safely and efficiently #Managing airway obstructions and choking emergencies #Response to other medical emergencies, such as strokes and heart attacks #First aid considerations in a cardiac arrest scenario #Teamwork and communication during cardiac emergencies"
+51,,First Aid,EOSH UK,Award in Emergency First Aid at Work,Level 2,3 days,Assessments + MCQ,"#Introduction to emergency first aid and legal requirements in the workplace #Assessing the incident and ensuring personal safety #Understanding and managing the unconscious casualty #Cardiopulmonary resuscitation (CPR) techniques #Dealing with choking emergencies #Managing bleeding and wounds effectively #Recognizing and responding to common workplace injuries, such as fractures and burns #First aid for shock and anaphylaxis #Emergency response to medical conditions, including heart attacks and strokes #Communication and reporting during workplace emergencies"
+52,,First Aid,EOSH UK,Award in First Aid at Work,Level 3,7 days,Assessments + MCQ,"#Legal requirements and responsibilities of a workplace first aider #Assessing and managing an incident #Cardiopulmonary resuscitation (CPR) for adults, children, and infants #Automated external defibrillator (AED) operation and use #First aid for choking and airway obstruction #Recognition and management of shock and circulatory emergencies #First aid for wounds, bleeding, and trauma #Fracture and dislocation management and immobilization techniques #Head and spinal injuries: assessment and first aid interventions #Managing burns, scalds, and chemical exposures #First aid for eye injuries and foreign body removal #Recognizing and responding to medical emergencies, such as heart attacks and strokes #Managing allergic reactions and anaphylaxis #First aid for seizures, diabetes, and epilepsy #Communication and coordination during workplace incidents"
+53,,First Aid,EOSH UK,Award in First Aid & AED,NIL,4-5 days,Assessments + MCQ,"#Introduction to First Aid #Understanding the Role of a First Aider #Primary Survey and Assessing the Scene #Cardiopulmonary Resuscitation (CPR) #Use of Automated External Defibrillator (AED) #Dealing with Choking and Airway Obstruction #Managing Bleeding and Wound Care #Fractures, Sprains, and Strains #Burns and Scalds #Medical Conditions: Stroke, Heart Attack, Seizures #Environmental Emergencies: Heatstroke, Hypothermia"
+54,,First Aid,EOSH UK,Award in CPR & First Aid,NIL,4-5 days,Assessments + MCQ,"#Introduction to CPR and First Aid #Legal and Ethical Considerations in First Aid #Assessing the Scene and Ensuring Safety #Primary Survey and Basic Life Support (BLS) #Cardio Pulmonary Resuscitation (CPR) for Adults #CPR for Children and Infants #Use of Automated External Defibrillator (AED) #Choking and Airway Obstruction #Managing Bleeding and Wound Care #Fractures, Sprains, and Strains #Burns, Electrical Shock, and Chemical Exposure #Medical Emergencies: Stroke, Heart Attack, Allergic Reactions"
+55,,First Aid,EOSH UK,Award in Basic Life Support (BLS),NIL,2-3 days,Practical Assessment + MCQ,#Introduction to Basic Life Support (BLS) #Roles and Responsibilities of a First Responder #Legal and Ethical Considerations in Emergency Care #Scene Assessment and Personal Safety #Emergency Action Principles and Casualty Assessment #Recognition of Cardiac Arrest and Medical Emergencies #Airway Management and Recovery Position #Adult Basic Life Support (BLS) Procedures #Cardiopulmonary Resuscitation (CPR) for Adults #CPR for Children and Infants #Use of Automated External Defibrillator (AED) #Choking and Airway Obstruction Management #Communication and Handover to Emergency Services #Infection Prevention and Control Measures #Practical Skills Assessment and Scenario-Based Training
+56,,Safe Operator Training,EOSH UK,Award in Forklift Safe Operator Training,NIL,4-5 days,Assessments + MCQ,#Introduction to forklift operations and safety regulations #Forklift types and their components #Pre-operational checks and maintenance procedures #Load handling techniques and safe load capacity #Maneuvering and operating forklifts in different environments #Hazard identification and risk assessment #Communication and signaling in forklift operations #Safe stacking and de-stacking procedures #Emergency procedures and accident prevention #Pedestrian safety and traffic management
+57,,Safe Operator Training,EOSH UK,Award in Crane Safe Operator Training,NIL,4-5 days,Assessments + MCQ,"#Introduction to crane operations and safety regulations #Crane types, components, and operational controls #Crane inspection procedures and maintenance requirements #Load charts and load calculations #Rigging and lifting accessories #Safe operating practices and risk management #Crane signaling and communication techniques #Emergency procedures and response planning #Crane stability and working near power lines #Specialized crane operations #Practical hands-on training and simulations"
+58,,Safe Operator Training,EOSH UK,Award in Boom Lift Safe Operator Training,NIL,4-5 days,Assessments + MCQ,#Introduction to boom lifts and their applications #Types of boom lifts and their features #Boom lift safety regulations and standards #Pre-operation inspections and maintenance checks #Operating controls and functions of boom lifts #Hazard identification and risk assessment #Fall protection systems and procedures #Safe working practices at height #Maneuvering techniques and positioning of the boom lift #Emergency procedures and rescue techniques
+59,,Safe Operator Training,EOSH UK,Award in Man Lift Safe Operator Training,NIL,4-5 days,Assessments + MCQ,#Introduction to man lifts and their types #Safety regulations and standards for man lift operations #Understanding man lift components and controls #Pre-operation inspections and maintenance procedures #Safe operating practices and procedures #Emergency response and rescue procedures #Fall protection and harness systems #Hazard identification and risk assessment #Load capacity and weight distribution considerations #Operating in different environments and conditions #Review of relevant case studies and accidents related to man lift operations
+60,,Safe Operator Training,EOSH UK,Award in Tower Crane Safe Operator Training,NIL,4-5 days,Assessments + MCQ,#Introduction to tower cranes and their types #Safety regulations and standards for tower crane operations #Crane components and controls #Crane setup and dismantling procedures #Load charts and load handling techniques #Communication protocols for crane operations #Safe lifting practices and rigging principles #Understanding wind effects and working in challenging weather conditions #Emergency response and rescue procedures #Preventive maintenance and inspection of tower cranes #Review of case studies and incidents related to tower crane operations
+61,,Safe Operator Training,EOSH UK,Award in Excavator Safe Operator Training,NIL,5 days,MCQ + Assessments,#Excavator Familiarization #Safety Precautions #Machine Inspection #Basic Operations #Digging Techniques #Loading and Dumping #Excavator Attachments #Site Navigation #Safety in Confined Spaces #Emergency Procedures #Maintenance and Troubleshooting #Advanced Excavator Techniques
+62,,Scaffolding,EOSH UK,Award in Scaffolding Safety Awareness,NIL,4-5 days,Assessments + MCQ,#Introduction to Scaffolding Safety #Roles and Responsibilities in Scaffolding Operations #Types of Scaffolding and their Uses #Scaffolding Components and Materials #Scaffolding Erection and Dismantling Procedures #Scaffolding Stability and Load Capacity #Scaffolding Inspection and Maintenance #Fall Protection Systems in Scaffolding #Electrical Safety in Scaffolding #Hazards and Risk Assessment in Scaffolding #Emergency Preparedness and Response #Legal and Regulatory Requirements for Scaffolding Safety
+63,,Scaffolding,EOSH UK,Award in Basic Scaffolding Safety,Level 2,3 days,Assessments + MCQ,#Introduction to Scaffolding Safety #Roles and Responsibilities in Scaffolding Operations #Types of Scaffolding and their Uses #Scaffold Components and Terminology #Scaffold Erection and Dismantling Procedures #Scaffolding Stability and Load Capacity #Fall Protection Systems in Scaffolding #Electrical Safety in Scaffolding #Hazards Identification and Risk Assessment #Emergency Procedures and Response
+64,,Scaffolding,EOSH UK,Award in Scaffolding Safety,Level 3,7 days,Assessments + MCQ,#Advanced Scaffolding Systems and Components #Scaffolding Design Principles and Calculations #Advanced Scaffold Erection Techniques #Scaffold Stability and Load Management #Risk Assessment and Management in Scaffolding #Inspection and Maintenance of Complex Scaffolds #Fall Protection Systems and Rescue Procedures #Advanced Scaffold Access and Egress Methods #Temporary Works and Structural Stability #Scaffolding for Specialized Environments #Legal and Regulatory Framework for Scaffolding Safety #Project Management in Scaffolding Operations
+65,,Scaffolding,EOSH UK,Award in Scaffolding Inspector,NIL,4-5 days,Assessments + MCQ,#Introduction to Scaffolding Inspection #Legal and Regulatory Framework #Types of Scaffolding Systems #Scaffolding Components and Terminology #Scaffolding Inspection Procedures #Identifying Defects and Hazards #Load Capacities and Structural Stability #Scaffolding Tagging and Documentation #Safety Measures and Personal Protective Equipment (PPE) #Reporting and Communication
+66,,Scaffolding,EOSH UK,Award in Scaffolding Erector,NIL,4-5 days,Assessments + MCQ,"#Introduction to Scaffolding Erector Role and Responsibilities #Legal and Regulatory Framework for Scaffolding #Types of Scaffolding Systems and Applications #Reading and Interpreting Design Drawings #Selection and Inspection of Scaffolding Components #Safe Handling and Storage of Scaffolding Materials #Scaffolding Erection Techniques and Procedures #Load Capacities and Structural Stability #Bracing, Anchoring, and Tie-off Systems #Inspection and Testing of Erected Scaffolding #Safety Measures and Risk Assessment in Scaffolding Erection #Emergency Procedures and Rescue Techniques"
+67,,Scaffolding,EOSH UK,Award in Scaffolding Supervisor,NIL,4-5 days,Assessments + MCQ,#Introduction to Scaffolding Supervisor Role #Legislation and Regulations for Scaffolding Operations #Health and Safety in Scaffolding #Scaffolding Design Principles and Types #Scaffolding Planning and Risk Assessment #Supervising Scaffolding Erection and Dismantling #Inspection and Maintenance of Scaffolding Structures #Communication and Team Management #Emergency Procedures and Rescue Planning #Quality Control and Compliance #Site Supervision and Reporting #Best Practices in Scaffolding Operations
+68,,Scaffolding,EOSH UK,Award in Scaffolding for Manager,NIL,4-5 days,Assessments + MCQ,#Introduction to Scaffolding Management #Legislation and Regulations for Scaffolding Operations #Advanced Health and Safety in Scaffolding #Scaffolding Design and Engineering Principles #Advanced Planning and Project Management #Budgeting and Cost Control #Leadership and Team Management #Communication and Negotiation Skills #Quality Assurance and Compliance #Procurement and Supply Chain Management #Risk Assessment and Risk Management #Environmental Considerations in Scaffolding Projects #Contract Management and Legal Aspects #Crisis Management and Emergency Response #Advanced Scaffolding Techniques and Innovations
+69,,Scaffolding,EOSH UK,"Award in Safe Scaffolding Erection, Dismantling & Modification",NIL,4-5 days,Assessments + MCQ,#Introduction to Safe Scaffolding Practices #Legislation and Regulations for Scaffold Operations #Roles and Responsibilities of Scaffolders #Scaffold Types and Components #Scaffolding Tools and Equipment #Scaffold Erection Procedures and Techniques #Scaffolding Stability and Structural Integrity #Scaffold Dismantling and Removal Procedures #Modification and Adaptation of Scaffolds #Load Capacities and Weight Distribution #Risk Assessment and Hazard Identification #Fall Protection and Safety Measures #Communication and Signaling on Scaffolds #Inspection and Maintenance of Scaffolding #Emergency Response and Rescue Procedures
+70,,Scaffolding,EOSH UK,Award in Train the Trainer – Scaffolding,NIL,7-10 days,Assessments + MCQ,#Introduction to Train the Trainer – Scaffolding #Scaffolding Safety Standards and Regulations #Training Needs Assessment #Instructional Design and Training Planning #Effective Communication for Trainers #Training Delivery Techniques and Strategies #Evaluation and Feedback in Training #Scaffolding Equipment and Tools #Scaffold Design and Construction #Scaffolding Inspection and Maintenance #Scaffolding Hazards and Risk Mitigation #Emergency Response and First Aid in Scaffolding #Scaffolding Training for Different Work Environments #Practical Training Exercises and Demonstrations
+71,,Certified Master Trainer,EOSH UK,Award in Advanced Teaching Strategies,NIL,4-5 days,Assessments + MCQ,#Introduction to Advanced Teaching Strategies #Student-Centered Learning Approaches #Designing Engaging and Interactive Lesson Plans #Assessment and Feedback Strategies #Differentiated Instruction and Personalized Learning #Technology Integration in the Classroom #Promoting Critical Thinking and Problem-Solving Skills #Cultivating Creativity and Innovation #Effective Classroom Management in Diverse Settings #Collaborative Learning and Group Work Strategies #Adapting Teaching Strategies for Special Needs Students #Professional Growth and Reflective Practice
+72,,Certified Master Trainer,EOSH UK,Award in Instructional Design,NIL,4-5 days,Assessments + MCQ,#Introduction to Instructional Design #Needs Analysis and Learning Objectives #Instructional Design Models and Frameworks #Designing Engaging and Interactive Learning Experiences #Curriculum Development and Sequencing of Instructional Content #Selecting and Incorporating Instructional Media and Technology #Assessing Learning Outcomes and Performance Evaluation #Creating Effective Instructional Materials #Instructional Design for Online and Blended Learning Environments #Quality Assurance and Evaluation of Instructional Materials #Collaboration and Project Management in Instructional Design #Continuous Improvement in Instructional Design Practices
+73,,Certified Master Trainer,EOSH UK,Award in Evaluation and Assessment,NIL,4-5 days,Assessments + MCQ,#Introduction to Evaluation and Assessment #Types of Evaluation and Assessment Methods #Developing Learning Outcomes and Assessment Criteria #Designing Effective Assessment Instruments #Formative Assessment Strategies and Feedback #Summative Assessment Strategies and Grading #Performance Assessment and Authentic Assessment #Rubric Development and Use #Data Analysis and Interpretation in Evaluation #Evaluation of Instructional Programs and Curriculum #Assessing Learning in Online and Blended Environments #Ethics and Fairness in Evaluation and Assessment
+74,,Certified Master Trainer,EOSH UK,Award in Adult Learning Principles,NIL,4-5 days,Assessments + MCQ,#Introduction to Adult Learning Principles #Characteristics and Needs of Adult Learners #Learning Theories and Models for Adult Education #Designing Engaging and Relevant Learning Experiences #Facilitating Adult Learning: Techniques and Strategies #Motivating Adult Learners and Promoting Self-Directed Learning #Prior Experience and Its Influence on Adult Learning #Assessing and Evaluating Adult Learning Outcomes #Technology Integration in Adult Education #Creating Inclusive and Supportive Learning Environments #Collaboration and Adult Learning Communities #Professional Development and Continuous Learning for Adult Educators
+75,,Certified Master Trainer,EOSH UK,Award in Communication and Presentation Skills,NIL,4-5 days,Assessments + MCQ,#Introduction to Effective Communication #Verbal and Non-verbal Communication Skills #Active Listening and Empathetic Communication #Overcoming Communication Barriers #Building Rapport and Interpersonal Communication #Presentation Skills: Structure and Delivery #Engaging the Audience and Managing Questions #Visual Aids and Presentation Technology #Managing Nervousness and Building Confidence #Business Communication Etiquette #Persuasive Communication Techniques #Effective Communication in Diverse Environments`;
+
+function cleanCsvCell(value) {
+  return String(value || "")
+    .replace(/\r/g, "")
+    .replace(/\uFEFF/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function parseCsvRows(text) {
+  const rows = [];
+  let row = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < text.length; i += 1) {
+    const char = text[i];
+
+    if (char === '"') {
+      if (inQuotes && text[i + 1] === '"') {
+        current += '"';
+        i += 1;
+      } else {
+        inQuotes = !inQuotes;
+      }
+    } else if (char === ',' && !inQuotes) {
+      row.push(current);
+      current = "";
+    } else if ((char === '\n' || char === '\r') && !inQuotes) {
+      if (char === '\r' && text[i + 1] === '\n') {
+        i += 1;
+      }
+      row.push(current);
+      if (row.some(cell => cleanCsvCell(cell))) {
+        rows.push(row);
+      }
+      row = [];
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+
+  if (current.length || row.length) {
+    row.push(current);
+    if (row.some(cell => cleanCsvCell(cell))) {
+      rows.push(row);
+    }
+  }
+
+  return rows;
+}
+
+function inferCategoryFromTitle(title, fallback) {
+  const value = title.toLowerCase();
+  if (/(health|hse|safety)/.test(value) && !/(fire|first aid|scaffolding|lifting|operator|environment|sustainability)/.test(value)) {
+    return "Health & Safety";
+  }
+  if (/(fire|hot work|extinguisher|firefighting)/.test(value)) {
+    return "Fire & Safety";
+  }
+  if (/(first aid|basic life support|bls|cpr|aed|emergency first aid)/.test(value)) {
+    return "First Aid";
+  }
+  if (/(environmental sustainability|sustainability|esg|waste water|soil|wastewater|environmental social and governance|sustainable)/.test(value) && !/environmental management|environmental principles|guidelines/.test(value)) {
+    return "Environmental Sustainability";
+  }
+  if (/(environmental management|environmental principles|environmental quality|environmental and social action plan|ehs guidelines|environment|quality monitoring)/.test(value)) {
+    return "Environment";
+  }
+  if (/(lifting|rigging|rigger|banksman|signalman|crane|forklift|equipment safety inspection)/.test(value)) {
+    return "Lifting & Rigging";
+  }
+  if (/(scaffolding)/.test(value)) {
+    return "Scaffolding";
+  }
+  if (/(safe operator training|excavator|boom lift|man lift|tower crane|forklift safe operator)/.test(value)) {
+    return "Safe Operator Training";
+  }
+  if (/(instructional design|adult learning|advanced teaching|evaluation and assessment|communication and presentation|trainer)/.test(value)) {
+    return "Certified Master Trainer";
+  }
+  return fallback || "General";
+}
+
+function buildAttachmentCatalog() {
+  const rows = parseCsvRows(ATTACHED_COURSE_DATA);
+  if (!rows.length) {
+    return [];
+  }
+
+  const headers = [
+    "SL.NO",
+    "COURSE CODE",
+    "CATEGORY",
+    "ACCREDITATION BODY",
+    "CERTIFICATION",
+    "LEVEL",
+    "DURATION",
+    "ASSESSMENT TYPE",
+    "SYLLABUS"
+  ];
+
+  const categories = new Map();
+  let lastCategory = "";
+
+  for (const row of rows.slice(1)) {
+    if (row.length < headers.length) {
+      continue;
+    }
+
+    const item = {};
+    headers.forEach((header, index) => {
+      item[header] = cleanCsvCell(row[index]);
+    });
+
+    const certification = item.CERTIFICATION;
+    if (!certification || certification.startsWith("=AI(")) {
+      continue;
+    }
+
+    let categoryName = item.CATEGORY;
+    if (!categoryName || categoryName.startsWith("=AI(") || categoryName === "NIL") {
+      categoryName = inferCategoryFromTitle(certification, lastCategory);
+    } else {
+      categoryName = categoryName.replace(/^\s*\n\s*/, "");
+    }
+
+    lastCategory = categoryName || lastCategory;
+    if (!categoryName) {
+      continue;
+    }
+
+    if (!categories.has(categoryName)) {
+      categories.set(categoryName, {
+        id: slugify(categoryName),
+        name: categoryName,
+        slug: slugify(categoryName),
+        cluster: categoryName === "Certified Master Trainer" ? "Professional Development" : categoryName,
+        icon: categoryName === "Health & Safety" ? "🛡️" : categoryName === "Fire & Safety" ? "🔥" : categoryName === "First Aid" ? "🚑" : categoryName === "Environmental Sustainability" ? "♻️" : categoryName === "Environment" ? "🌿" : categoryName === "Lifting & Rigging" ? "🏗️" : categoryName === "Scaffolding" ? "🧱" : categoryName === "Safe Operator Training" ? "🚜" : categoryName === "Certified Master Trainer" ? "🎓" : "📘",
+        blurb: `${categoryName} courses delivered with structured learning, practical assessment and verifiable certification.`,
+        detailedListPending: false,
+        courses: []
+      });
+    }
+
+    const syllabus = item.SYLLABUS || "";
+    const modules = syllabus
+      .split("#")
+      .map(part => cleanCsvCell(part.replace(/^\s*#/, "")))
+      .filter(Boolean);
+
+    const courseData = {
+      title: certification,
+      level: item.LEVEL || "NIL",
+      duration: item.DURATION || "Flexible",
+      mode: item["ASSESSMENT TYPE"] || "Assessment",
+      summary: `${certification} is a structured training programme designed to support workplace competence, compliance and operational safety through practical learning and assessment.`,
+      outcomes: (modules.length ? modules.slice(0, 5) : ["Understand core requirements and apply them in a real workplace context."]).map((module, index) => `Demonstrate competence in ${module.toLowerCase()} through applied workplace practice and assessment.`),
+      modules: modules.length ? modules : ["Module details available on request."],
+      assessment: item["ASSESSMENT TYPE"] || "Assessment",
+      careers: [
+        "HSE Officer",
+        "Supervisor",
+        "Compliance Coordinator",
+        "Operations Team Lead"
+      ],
+      eligibility: "Open to employees, supervisors and managers in relevant sectors. No formal prerequisites unless stated.",
+      certification: "EOSH UK certified qualification",
+      faqs: [
+        { q: "Is this course accredited?", a: "Yes. This qualification is delivered under the EOSH UK accreditation framework and confirmed through a verifiable certification process." },
+        { q: "What is the delivery format?", a: "Delivery is designed for classroom, blended and practical training, depending on the qualification and learner needs." },
+        { q: "Will learners receive evidence of achievement?", a: "Yes. Learners receive a certificate and assessment record documenting the completed qualification and level attained." }
+      ]
+    };
+
+    categories.get(categoryName).courses.push(mkCourse(courseData));
+  }
+
+  return Array.from(categories.values());
+}
+
+const COURSE_CATEGORIES = buildAttachmentCatalog();
 
 // ---- helpers -------------------------------------------------------------
 
@@ -1250,6 +1682,34 @@ if (typeof module !== "undefined" && module.exports) {
     darkBtn.classList.toggle('active');
     darkBtn.textContent = darkBtn.classList.contains('active') ? '☀️ Light mode' : '🌙 Dark mode';
   });
+</script>
+<script>
+function prepareWhatsAppLink() {
+    const form = document.getElementById('ec-enquiry-form');
+    const whatsappNumber = "916238501454";
+
+    const name = form?.querySelector('input[name="name"]')?.value.trim() || "";
+    const courseName = form?.querySelector('input[name="Course name"]')?.value.trim() || "";
+    const email = form?.querySelector('input[name="email"]')?.value.trim() || "";
+    const message = form?.querySelector('textarea[name="message"]')?.value.trim() || "";
+
+    const text = [
+        "*New Course Enquiry*",
+        "",
+        `Name: ${name || "Not provided"}`,
+        `Course: ${courseName || "Not provided"}`,
+        `Email: ${email || "Not provided"}`,
+        "",
+        `Message: ${message || "No additional details provided."}`
+    ].join("\n");
+
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+    const opened = window.open(url, '_blank', 'noopener,noreferrer');
+
+    if (!opened) {
+        window.location.href = url;
+    }
+}
 </script>
 </body>
 </html>
