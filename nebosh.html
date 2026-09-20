@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NEBOSH UK — Qualification Register</title>
+<meta name="description" content="A register of NEBOSH UK qualifications, from the introductory Award to postgraduate Master's degrees.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2218%22 fill=%22%230E7C4A%22/><path d=%22M50 20 L78 33 V56 C78 74 66 85 50 90 C34 85 22 74 22 56 V33 Z%22 fill=%22none%22 stroke=%22%23F6F3EA%22 stroke-width=%225%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B2A4C;
+    --paper:#FFFFFF;
+    --panel:#F3F7FC;
+    --green:#1E5AA8;
+    --green-dim:#1E5AA81A;
+    --slate:#5B6B85;
+    --gold:#3D7AC7;
+    --line:#DCE7F5;
+    --focus:#1E5AA8;
+    --font-display:"Fraunces", Georgia, "Times New Roman", serif;
+    --font-body:"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  :root:not([data-theme="light"]){
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#EAF2FF;
+      --paper:#081729;
+      --panel:#0E2038;
+      --green:#6FA8F5;
+      --green-dim:#6FA8F51F;
+      --slate:#9AB0CC;
+      --gold:#7FB4F2;
+      --line:#1B3350;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#EAF2FF;
+    --paper:#081729;
+    --panel:#0E2038;
+    --green:#6FA8F5;
+    --green-dim:#6FA8F51F;
+    --slate:#9AB0CC;
+    --gold:#7FB4F2;
+    --line:#1B3350;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-padding-top:calc(84px + env(safe-area-inset-top,0px));}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  a{color:var(--green);}
+  ::selection{background:var(--green-dim);}
+
+  /* ---------- header ---------- */
+  header.site{
+    position:sticky; top:0; z-index:40;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    padding-top:env(safe-area-inset-top,0px);
+  }
+  .header-inner{
+    max-width:1120px; margin:0 auto; padding:14px 24px;
+    display:flex; align-items:center; gap:18px;
+  }
+  .brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); flex-shrink:0;}
+  .brand svg{width:30px; height:30px; display:block;}
+  .brand-text{display:flex; flex-direction:column; line-height:1.15;}
+  .brand-text b{font-family:var(--font-display); font-size:17px; font-weight:600; letter-spacing:.2px;}
+  .brand-text span{font-size:11px; color:var(--slate);}
+  .search-wrap{flex:1; max-width:420px; position:relative;}
+  .search-wrap input{
+    width:100%; padding:9px 14px 9px 34px; border-radius:8px;
+    border:1px solid var(--line); background:var(--panel); color:var(--ink);
+    font-family:var(--font-body); font-size:14px;
+  }
+  .search-wrap input:focus{outline:2px solid var(--focus); outline-offset:1px;}
+  .search-wrap svg{position:absolute; left:11px; top:50%; transform:translateY(-50%); width:15px; height:15px; color:var(--slate);}
+  .header-actions{display:flex; align-items:center; gap:8px; margin-left:auto;}
+  .icon-btn{
+    border:1px solid var(--line); background:var(--panel); color:var(--ink);
+    border-radius:8px; padding:8px 12px; font-size:13px; font-family:var(--font-body);
+    cursor:pointer; display:flex; align-items:center; gap:6px;
+  }
+  .icon-btn:hover{border-color:var(--green);}
+  .icon-btn:focus-visible{outline:2px solid var(--focus); outline-offset:1px;}
+
+  /* ---------- hero ---------- */
+  .hero{max-width:1120px; margin:0 auto; padding:44px 24px 8px;}
+  .hero h1{
+    font-family:var(--font-display); font-weight:600; font-size:clamp(28px,4vw,42px);
+    margin:0 0 12px; max-width:16ch; letter-spacing:-.01em;
+  }
+  .hero p{max-width:56ch; color:var(--slate); font-size:15.5px; margin:0 0 30px;}
+
+  .pathway{
+    display:flex; gap:2px;
+    border:1px solid var(--line); border-radius:12px; overflow:hidden; background:var(--line);
+  }
+  .pathway button{
+    all:unset; cursor:pointer; background:var(--panel); padding:16px 16px 18px;
+    display:flex; flex-direction:column; gap:6px; position:relative;
+    flex:1 1 0;
+  }
+  .pathway button .tier{font-size:11px; color:var(--slate); font-weight:600;}
+  .pathway button .count{font-family:var(--font-display); font-size:26px; font-weight:600;}
+  .pathway button .bar{height:4px; border-radius:3px; background:var(--green-dim); margin-top:2px; overflow:hidden;}
+  .pathway button .bar i{display:block; height:100%; background:var(--green); border-radius:3px;}
+  .pathway button[aria-pressed="true"]{background:var(--green-dim);}
+  .pathway button:hover{background:var(--green-dim);}
+  .pathway button:focus-visible{outline:2px solid var(--focus); outline-offset:-2px;}
+
+  /* ---------- filters ---------- */
+  .filters{
+    max-width:1120px; margin:0 auto; padding:26px 24px 4px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  }
+  .filters .count-label{font-size:13px; color:var(--slate);}
+  .chipset{display:flex; gap:8px; flex-wrap:wrap;}
+  .chip{
+    border:1px solid var(--line); background:transparent; color:var(--ink);
+    border-radius:999px; padding:6px 13px; font-size:13px; font-family:var(--font-body);
+    cursor:pointer;
+  }
+  .chip[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+  :root[data-theme="dark"] .chip[aria-pressed="true"], @media (prefers-color-scheme:dark){.chip[aria-pressed="true"]{color:var(--paper);}}
+
+  /* ---------- card grid (flexbox) ---------- */
+  main{max-width:1120px; margin:0 auto; padding:10px 24px 80px;}
+  .group{margin-top:34px;}
+  .group h2{
+    font-family:var(--font-display); font-size:20px; font-weight:600; margin:0 0 14px;
+    display:flex; align-items:baseline; gap:10px;
+  }
+  .group h2 small{font-family:var(--font-body); font-weight:500; font-size:12.5px; color:var(--slate);}
+  .card-grid{
+    display:flex; flex-wrap:wrap; gap:16px;
+  }
+  .card{
+    flex:1 1 280px; max-width:340px;
+    background:var(--panel); border:1px solid var(--line); border-radius:12px;
+    padding:18px; cursor:pointer; display:flex; flex-direction:column; gap:10px;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .card:hover{border-color:var(--green); transform:translateY(-2px);}
+  .card:focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .card-no{font-family:var(--font-display); color:var(--slate); font-size:13px;}
+  .level-pill{
+    font-size:11px; padding:4px 10px; border-radius:999px; border:1px solid var(--gold);
+    color:var(--gold); white-space:nowrap; flex-shrink:0;
+  }
+  .card-title{font-family:var(--font-display); font-size:17px; font-weight:500; line-height:1.3; margin:0;}
+  .card-code{font-size:11.5px; color:var(--slate); letter-spacing:.02em;}
+  .card-preview{font-size:13px; color:var(--slate); line-height:1.5; flex:1;}
+  .card-bottom{
+    display:flex; justify-content:space-between; align-items:center; gap:10px;
+    font-size:12.5px; color:var(--green); margin-top:2px;
+  }
+  .card-duration{color:var(--slate);}
+
+  /* ---------- modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(8,23,41,.55);
+    display:flex; align-items:flex-start; justify-content:center;
+    padding:60px 20px calc(40px + env(safe-area-inset-bottom,0px));
+    overflow-y:auto;
+  }
+  .modal-overlay[hidden]{display:none;}
+  .modal{
+    background:var(--paper); color:var(--ink); border-radius:14px;
+    max-width:560px; width:100%; padding:28px 28px 26px; position:relative;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+  }
+  .modal-close{
+    position:absolute; top:16px; right:16px; border:none; background:var(--panel);
+    color:var(--ink); width:32px; height:32px; border-radius:8px; cursor:pointer; font-size:15px;
+  }
+  .modal-close:hover{background:var(--green-dim);}
+  .modal h2{font-family:var(--font-display); font-size:22px; font-weight:600; margin:0 6px 4px 0; padding-right:34px;}
+  .modal .modal-code{font-size:12px; color:var(--slate); margin-bottom:18px;}
+  .meta-grid{
+    display:flex; flex-wrap:wrap; gap:14px 26px;
+    margin-bottom:18px; font-size:13px;
+  }
+  .meta-grid div{flex:1 1 150px;}
+  .meta-grid dt{color:var(--slate); font-size:11px; margin-bottom:3px;}
+  .meta-grid dd{margin:0;}
+  .syllabus-label{font-size:11px; color:var(--slate); margin-bottom:8px;}
+  ul.syllabus{margin:0 0 16px; padding-left:18px;}
+  ul.syllabus li{margin-bottom:6px; font-size:14px; line-height:1.45;}
+  .source-link{font-size:12.5px; color:var(--green); text-decoration:none; border-bottom:1px solid var(--green-dim);}
+  .source-link:hover{border-color:var(--green);}
+
+  .empty{padding:60px 0; text-align:center; color:var(--slate);}
+
+  footer{
+    border-top:1px solid var(--line); padding:26px 24px calc(26px + env(safe-area-inset-bottom,0px));
+    max-width:1120px; margin:0 auto; display:flex; justify-content:space-between; gap:12px;
+    flex-wrap:wrap; font-size:12.5px; color:var(--slate);
+  }
+
+  @media (max-width:760px){
+    .search-wrap{display:none;}
+    .pathway{flex-wrap:wrap;}
+    .pathway button{flex:1 1 45%;}
+    .card{flex:1 1 100%; max-width:none;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .card{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="header-inner">
+    <a class="brand" href="#/">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="100" height="100" rx="18" fill="var(--green)"/>
+        <path d="M50 20 L78 33 V56 C78 74 66 85 50 90 C34 85 22 74 22 56 V33 Z" fill="none" stroke="var(--paper)" stroke-width="5"/>
+      </svg>
+      <span class="brand-text"><b>NEBOSH UK</b><span>Qualification Register</span></span>
+    </a>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="search" type="text" placeholder="Search qualifications, codes, levels…" aria-label="Search qualifications">
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="themeToggle" aria-pressed="false">
+        <span id="themeIcon">🌙</span><span id="themeLabel">Dark</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>NEBOSH UK qualification</h1>
+  <p>NEBOSH — the National Examination Board in Occupational Safety and Health — runs a ladder of health, safety and environmental qualifications, from a one-day Award through to a postgraduate Master's. This register lists all 26, sourced from nebosh.org.uk.</p>
+  <div class="pathway" id="pathway" role="group" aria-label="Filter by qualification tier"></div>
+</div>
+
+<div class="filters">
+  <span class="count-label" id="resultCount"></span>
+  <div class="chipset" id="chipset"></div>
+</div>
+
+<main id="main"></main>
+
+<div class="modal-overlay" id="modalOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+
+<footer>
+  <span>Data sourced from nebosh.org.uk/qualifications. Verify current syllabi and fees with NEBOSH before enrolling.</span>
+  <span>Copyright © 2026 — Powered by Pro Skyllz International</span>
+</footer>
+
+<script>
+const DATA = [{"no": 1, "code": "NEBOSH-AW-01", "category": "Award", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "Health and Safety at Work Award", "level": "Award (Introductory)", "duration": "typically 1-3 days", "assessment": "Multiple-choice / short-answer assessment", "syllabus": ["Considers how health and safety is managed, and how it could be done better.", "Identifies health and safety hazards, how they are controlled and if the risk can be reduced.", "Select the most important hazard for improvement."], "remarks": "nebosh.org.uk/qualifications/health-and-safety-at-work-award"}, {"no": 2, "code": "NEBOSH-AW-02", "category": "Award", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "Award in Environmental Awareness at Work", "level": "Award (Introductory)", "duration": "typically 1-3 days", "assessment": "Multiple-choice / short-answer assessment", "syllabus": ["The meanings of basic environmental terms", "Importance and benefits of sustainable development", "The individual's role in a certified Environmental Management System (EMS)", "Air, water, and land pollution", "Dealing with emergencies"], "remarks": "nebosh.org.uk/qualifications/environmental-awareness"}, {"no": 3, "code": "NEBOSH-AW-03", "category": "Award", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "NEBOSH HSE Introduction to Incident Investigation", "level": "Award (Introductory)", "duration": "typically 1-3 days", "assessment": "Multiple-choice / short-answer assessment", "syllabus": ["Moral, legal and financial arguments for investigations", "Human and organisational factors that can contribute to an incident", "The process for investigating incidents", "Positive interview strategies and the barriers to successful interviews"], "remarks": "nebosh.org.uk/qualifications/nebosh-hse-introduction-to-incident-investigation"}, {"no": 4, "code": "NEBOSH-AW-04", "category": "Award", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "Working with Wellbeing", "level": "Award (Introductory)", "duration": "typically 1-3 days", "assessment": "Multiple-choice / short-answer assessment", "syllabus": ["what \u2018wellbeing\u2019 is and why it matters", "the different factors that can positively and negatively impact wellbeing", "the benefits of achieving good worker wellbeing", "practical initiatives that can improve wellbeing"], "remarks": "nebosh.org.uk/qualifications/working-with-wellbeing"}, {"no": 5, "code": "NEBOSH-AW-05", "category": "Award", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "NEBOSH HSE Award in Managing Risks and Risk Assessment at Work", "level": "Award (Introductory)", "duration": "typically 1-3 days", "assessment": "Multiple-choice / short-answer assessment", "syllabus": ["Develop straightforward practical skills to manage workplace risks; something all employers need", "Build confidence in your risk assessment capabilities", "Contribute to the creation of a safer and healthier workplace as soon as you return to work."], "remarks": "nebosh.org.uk/qualifications/nebosh-hse-award-in-managing-risks"}, {"no": 6, "code": "NEBOSH-CERT-06", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "National General Certificate in Occupational Health and Safety", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["Confidently carry out risk assessments", "Develop and implement a detailed action plan", "Manage and minimise workplace risks", "Support and develop your company\u2019s health and safety culture"], "remarks": "nebosh.org.uk/qualifications/national-general-certificate"}, {"no": 7, "code": "NEBOSH-CERT-07", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "International General Certificate in Occupational Health and Safety", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["Confidently carry out risk assessments", "Develop and implement a detailed action plan", "Manage and minimise workplace risks", "Support and develop your company\u2019s health and safety culture"], "remarks": "nebosh.org.uk/qualifications/international-general-certificate"}, {"no": 8, "code": "NEBOSH-CERT-08", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "Health and Safety Management for Construction (UK)", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["Technical know-how to comply with legislation and implement best practice", "Practical skills to apply back in the workplace", "Confidence to influence your colleagues to work more safely", "Ability to adapt to changing workplaces and sites."], "remarks": "nebosh.org.uk/qualifications/health-and-safety-management-for-construction-uk"}, {"no": 9, "code": "NEBOSH-CERT-09", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "Health and Safety Management for Construction (International)", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["Technical know-how to comply with legislation and implement best practice", "Practical skills to apply back in the workplace", "Confidence to influence your colleagues to work more safely", "Ability to adapt to changing workplaces and sites."], "remarks": "nebosh.org.uk/qualifications/health-and-safety-management-for-construction-international"}, {"no": 10, "code": "NEBOSH-CERT-10", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "NEBOSH IIRSM Certificate in Managing Risk", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["the principles of risk and risk management", "the risk management process and framework based on ISO 31000", "the relationship between psychology and decision-making", "how to analyse the environment in which an organisation operates", "identifying potential risks and opportunities", "the relationship between risk management, business continuity, crisis management and organisational resilience."], "remarks": "nebosh.org.uk/qualifications/nebosh-iirsm-certificate-in-managing-risk"}, {"no": 11, "code": "NEBOSH-CERT-11", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "NEBOSH HSE Certificate in Process Safety Management", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["Process safety leadership", "Management of process risk", "Process safety hazard control", "Fire and explosion protection", "Establishment of process management systems", "Asset management and maintenance strategies", "Safe start-up and shutdown of process plant", "Performance standards for safety critical systems and equipment", "Hazards and controls for chemical reactions", "Hazards and controls for bulk storage of dangerous substances", "Hazards and controls for fire and explosion", "Purpose and features of emergency plans"], "remarks": "nebosh.org.uk/qualifications/nebosh-hse-certificate-in-process-safety-management"}, {"no": 12, "code": "NEBOSH-CERT-12", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "NEBOSH HSE Certificate in Health and Safety Leadership Excellence", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["What health and safety leadership means", "The moral, legal and business reasons for good health and safety leadership", "The links between health and safety leadership and culture", "What the different leadership styles are", "How human failures can impact performance and culture", "The HSE\u2019s model of effective health and safety leadership", "How leaders can build effective relationships with the workforce"], "remarks": "nebosh.org.uk/qualifications/nebosh-hse-certificate-in-health-and-safety-leadership-excellence"}, {"no": 13, "code": "NEBOSH-CERT-13", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "International Technical Certificate in Oil and Gas Operational Safety", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["Hazards inherent in the extraction, storage and processing of raw materials and products", "Hydrocarbon process safety", "Risk management techniques used in the oil and gas industries", "Contractor management", "Fire and explosion controls in the oil and gas industries", "Marine and Land logistics", "Health, safety and environmental management in context", "Hydrocarbon process safety (1)", "Hydrocarbon process safety (2)", "Fire protection and emergency response", "Logistics and transport operations"], "remarks": "nebosh.org.uk/qualifications/international-oil-and-gas-certificate"}, {"no": 14, "code": "NEBOSH-CERT-14", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "Environmental Management Certificate", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["Understand a range of environmental issues so that you can improve environmental performance and reduce harm", "Work within an environmental management system and contribute to continual improvement", "Recognise environmental aspects and associated impacts, and evaluate the effectiveness of existing controls", "Support decision-making with ethical, legal and financial arguments", "Understand the links between your organisation\u2019s activities and wider environmental issues"], "remarks": "nebosh.org.uk/qualifications/environmental-management-certificate"}, {"no": 15, "code": "NEBOSH-CERT-15", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "Certificate in Fire Safety", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["Hazards inherent in the extraction, storage and processing of raw materials and products", "Hydrocarbon process safety", "Risk management techniques used in the oil and gas industries", "Contractor management", "Fire and explosion controls in the oil and gas industries", "Marine and Land logistics", "Health, safety and environmental management in context", "Hydrocarbon process safety (1)", "Hydrocarbon process safety (2)", "Fire protection and emergency response", "Logistics and transport operations"], "remarks": "nebosh.org.uk/qualifications/certificate-in-fire-safety"}, {"no": 16, "code": "NEBOSH-CERT-16", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "NEBOSH HSE Certificate in Manual Handling Risk Assessment", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["Explain the importance of reducing risks associated with manual handling activities", "Understand responsibilities in relation to manual handling", "Explain what manual handling risks are and how they may result in injury", "Demonstrate and practice appropriate manual handling risk assessment technique", "Apply wider elements of risk management for manual handling", "Protect team members from one of the main causes of musculoskeletal disorders", "Have confidence that the approach adopted to manual handling risk assessment reflects best practice and utilises HSE manual handling tools and templates"], "remarks": "nebosh.org.uk/qualifications/nebosh-hse-certificate-in-manual-handling-risk-assessment"}, {"no": 17, "code": "NEBOSH-CERT-17", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "NEBOSH HSE Certificate in Managing Stress at Work", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["How to recognise the causes and effects of workplace stress", "The responsibilities of employers and individual roles in managing workplace stress", "How to apply the HSE\u2019s Management Standards approach to assess stress risks in the workplace", "How to develop suitable interventions to address stressors, reduce negative impacts, and manage the effects of stress in the workplace", "Ways to continually improve your organisation and create a great place to work"], "remarks": "nebosh.org.uk/qualifications/nebosh-hse-certificate-in-managing-stress-at-work"}, {"no": 18, "code": "NEBOSH-CERT-18", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "NEBOSH National Certificate in Protecting Standard Duty Premises from Terrorism", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["The nature of terrorism and the legal framework", "UK threat levels and organisational duties", "Understanding terrorist threats and site vulnerabilities", "Implementing public protection procedures", "Developing a strong security culture"], "remarks": "nebosh.org.uk/qualifications/national-protecting-standard-duty-premises-from-terrorism"}, {"no": 19, "code": "NEBOSH-CERT-19", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "NEBOSH National Certificate in Protecting Enhanced Duty Premises and Events from Terrorism", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["The nature of terrorism and the legal framework", "UK threat levels and organisational duties", "Understanding terrorist threats and site vulnerabilities", "Implementing public protection procedures", "Implementing public protection measures", "Documenting compliance with the 2025 Act", "Business continuity and recovery", "Developing a strong security culture"], "remarks": "nebosh.org.uk/qualifications/national-protecting-enhanced-duty-premises-and-events-from-terrorism"}, {"no": 20, "code": "NEBOSH-CERT-20", "category": "Certificate", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "NEBOSH International Certificate in Protecting Premises and Events from Terrorism", "level": "Certificate (Foundation/Management)", "duration": "typically 1-4 weeks", "assessment": "Written examination + practical/workplace-based assessment", "syllabus": ["The nature of terrorism and the legal framework", "UK threat levels and organisational duties", "Understanding terrorist threats and site vulnerabilities", "Implementing public protection procedures", "Implementing public protection measures", "Documenting compliance with the 2025 Act", "Business continuity and recovery", "Developing a strong security culture"], "remarks": "nebosh.org.uk/qualifications/international-protecting-premises-and-events-from-terrorism"}, {"no": 21, "code": "NEBOSH-DIP-21", "category": "Diploma", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "NEBOSH Level 6 National Diploma for Occupational Health and Safety Management Professionals", "level": "Level 6 / Professional Diploma", "duration": "typically 12-18 months part-time", "assessment": "Written examinations + work-based practical assessment/portfolio", "syllabus": ["Understand how health and safety legislation is applied in a workplace and the possible enforcement actions that could be taken", "Identify and effectively communicate relevant health and safety information", "Advise on a range of common workplace health and safety issues including how these can be assessed, controlled and monitored", "Develop a health and safety policy strategy (including proactive safety, Corporate Social Responsibility and the change management process)", "Contribute to a risk management strategy", "Promote a positive health and safety culture", "Develop and audit health and safety management systems", "Maintain individual and organisational health and safety competence", "Manage contractors and supply chains to ensure compliance with health and safety standards"], "remarks": "nebosh.org.uk/qualifications/national-diploma-for-safety-and-health-management-professionals"}, {"no": 22, "code": "NEBOSH-DIP-22", "category": "Diploma", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "NEBOSH Level 6 International Diploma for Occupational Health and Safety Management Professionals", "level": "Level 6 / Professional Diploma", "duration": "typically 12-18 months part-time", "assessment": "Written examinations + work-based practical assessment/portfolio", "syllabus": ["Advise on the types of legislation likely to apply, the relevance of ILO and non-government bodies\u2019 guidance and possible enforcement actions", "Identify and effectively communicate relevant health and safety information", "Advise on a range of common workplace health and safety issues including how these can be assessed, controlled and monitored", "Develop a health and safety policy strategy (including proactive safety, Corporate Social Responsibility and the change management process)", "Contribute to a risk management strategy", "Promote a positive health and safety culture", "Develop and audit health and safety management systems", "Maintain individual and organisational health and safety competence", "Manage contractors and supply chains to ensure compliance with health and safety standards"], "remarks": "nebosh.org.uk/qualifications/international-diploma-for-health-and-safety-management-professionals"}, {"no": 23, "code": "NEBOSH-DIP-23", "category": "Diploma", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "National Diploma in Environmental Management", "level": "Level 6 / Professional Diploma", "duration": "typically 12-18 months part-time", "assessment": "Written examinations + work-based practical assessment/portfolio", "syllabus": ["Benefits, limitations and structure of an environmental management system", "Environmental aspect identification and control", "The principles and drivers for environmental sustainability", "Waste minimisation strategies", "Unit ED1: Controlling environmental aspects", "Unit NDEM2: Environmental Regulation"], "remarks": "nebosh.org.uk/qualifications/environmental-diploma"}, {"no": 24, "code": "NEBOSH-DIP-24", "category": "Diploma", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK", "title": "International Diploma in Environmental Management", "level": "Level 6 / Professional Diploma", "duration": "typically 12-18 months part-time", "assessment": "Written examinations + work-based practical assessment/portfolio", "syllabus": ["Benefits, limitations and structure of an environmental management system", "Environmental aspect identification and control", "The principles and drivers for environmental sustainability", "Waste minimisation strategies", "Unit ED1: Controlling environmental aspects", "Unit NDEM2: Environmental Regulation"], "remarks": "nebosh.org.uk/qualifications/international-diploma-in-environmental-management"}, {"no": 25, "code": "NEBOSH-MSC-25", "category": "Masters", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK; delivered in partnership with the University of Hull", "title": "NEBOSH Master of Science (MSc) degrees", "level": "Postgraduate", "duration": "typically 12-18 months part-time", "assessment": "University assessment (dissertation/research project)", "syllabus": ["Research Methods", "Literature Review", "Designing Research Projects", "Advanced Health, Safety and Environmental Risk Management (MSc Occupational Health, Safety and Environmental Management)", "Corporate Social Responsibility in Health, Safety and Environmental Management (MSc Occupational Health, Safety and Environmental Management)", "Advanced Health and Safety Risk Management (MSc Occupational Health and Safety Management)", "Corporate Social Responsibility in Health and Safety Management (MSc Occupational Health and Safety Management)", "Environmental Sustainability and Corporate Social Responsibility (MSc Environmental Management)", "Ecological Services and Environmental Economics (MSc Environmental Management)", "Disaster and Emergency Management (Optional for all MSc)", "Safety Case Production and Assessment (Optional for all MSc)", "Mental Health at Work (Optional for MSc Occupational Health, Safety and Environmental Management, MSc Occupational Health and Safety Management)", "Flood Risk Management (Optional for MSc Occupational Health, Safety and Environmental Management, MSc Environmental Management)", "MSc Research Dissertation"], "remarks": "nebosh.org.uk/qualifications/nebosh-master-of-science-msc-degrees \u2014 open to NEBOSH Diploma holders"}, {"no": 26, "code": "NEBOSH-MSC-26", "category": "Masters", "body": "NEBOSH (National Examination Board in Occupational Safety and Health), UK; delivered in partnership with the University of Hull", "title": "NEBOSH Master of Research (MRes) degrees", "level": "Postgraduate", "duration": "typically 12-18 months part-time", "assessment": "University assessment (dissertation/research project)", "syllabus": ["Research Methods", "Literature Review", "Designing Research Projects", "Workplace Research Project (Semester 3, Year 1 and Year 2)", "Formulate research question", "Collect and analyse data", "Produce dissertation with findings and conclusions"], "remarks": "nebosh.org.uk/qualifications/nebosh-master-of-research-mres-degrees \u2014 open to NEBOSH Diploma holders"}];
+
+const TIERS = ["Award","Certificate","Diploma","Masters"];
+const TIER_NOTE = {
+  Award:"Introductory, typically 1–3 days",
+  Certificate:"Foundation / management level",
+  Diploma:"Level 6 professional diploma",
+  Masters:"Postgraduate, with the University of Hull"
+};
+
+let state = { q:"", tier:"All" };
+
+function counts(){
+  const c = {All: DATA.length};
+  TIERS.forEach(t => c[t] = DATA.filter(d=>d.category===t).length);
+  return c;
+}
+
+function renderPathway(){
+  const c = counts();
+  const max = Math.max(...TIERS.map(t=>c[t]));
+  const el = document.getElementById('pathway');
+  el.innerHTML = TIERS.map(t => `
+    <button aria-pressed="${state.tier===t}" data-tier="${t}">
+      <span class="tier">${t}</span>
+      <span class="count">${c[t]}</span>
+      <span class="bar"><i style="width:${(c[t]/max*100).toFixed(0)}%"></i></span>
+      <span class="tier" style="font-weight:400;">${TIER_NOTE[t]}</span>
+    </button>
+  `).join('');
+  el.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      state.tier = (state.tier===b.dataset.tier) ? 'All' : b.dataset.tier;
+      render();
+    });
+  });
+}
+
+function renderChips(){
+  const c = counts();
+  const el = document.getElementById('chipset');
+  el.innerHTML = ['All',...TIERS].map(t=>`
+    <button class="chip" aria-pressed="${state.tier===t}" data-tier="${t}">${t} (${c[t]})</button>
+  `).join('');
+  el.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{ state.tier = b.dataset.tier; render(); });
+  });
+}
+
+function matches(d){
+  if(state.tier!=='All' && d.category!==state.tier) return false;
+  if(state.q){
+    const q = state.q.toLowerCase();
+    return (d.title+d.code+d.category+d.level).toLowerCase().includes(q);
+  }
+  return true;
+}
+
+function escapeHtml(s){
+  return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+
+function renderMain(){
+  const main = document.getElementById('main');
+  const filtered = DATA.filter(matches);
+  document.getElementById('resultCount').textContent =
+    filtered.length + (filtered.length===1 ? ' qualification' : ' qualifications');
+
+  if(!filtered.length){
+    main.innerHTML = `<div class="empty">No qualifications match “${escapeHtml(state.q)}”. Try a different term or clear the tier filter.</div>`;
+    return;
+  }
+
+  const groups = state.tier==='All' ? TIERS : [state.tier];
+  main.innerHTML = groups.map(tier=>{
+    const items = filtered.filter(d=>d.category===tier);
+    if(!items.length) return '';
+    return `
+      <div class="group">
+        <h2>${tier} <small>${TIER_NOTE[tier]}</small></h2>
+        <div class="card-grid">
+          ${items.map(cardHtml).join('')}
+        </div>
+      </div>`;
+  }).join('');
+
+  main.querySelectorAll('.card').forEach(c=>{
+    c.addEventListener('click', ()=>{ location.hash = '#/course/'+c.dataset.code; });
+    c.addEventListener('keydown', e=>{
+      if(e.key==='Enter' || e.key===' '){ e.preventDefault(); location.hash = '#/course/'+c.dataset.code; }
+    });
+  });
+}
+
+function cardHtml(d){
+  const preview = d.syllabus.slice(0,2).join(' · ');
+  return `
+    <div class="card" tabindex="0" role="button" data-code="${d.code}" aria-label="${escapeHtml(d.title)}">
+      <div class="card-top">
+        <span class="card-no">${String(d.no).padStart(2,'0')}</span>
+        <span class="level-pill">${escapeHtml(d.category)}</span>
+      </div>
+      <div>
+        <h3 class="card-title">${escapeHtml(d.title)}</h3>
+        <div class="card-code">${d.code} · ${escapeHtml(d.level)}</div>
+      </div>
+      <p class="card-preview">${escapeHtml(preview)}</p>
+      <div class="card-bottom">
+        <span>View syllabus →</span>
+        <span class="card-duration">${escapeHtml(d.duration)}</span>
+      </div>
+    </div>`;
+}
+
+function modalBodyHtml(d){
+  return `
+    <h2 id="modalTitle">${escapeHtml(d.title)}</h2>
+    <div class="modal-code">${d.code} · ${escapeHtml(d.category)} · ${escapeHtml(d.level)}</div>
+    <div class="meta-grid">
+      <div><dt>Accreditation body</dt><dd>${escapeHtml(d.body)}</dd></div>
+      <div><dt>Assessment type</dt><dd>${escapeHtml(d.assessment)}</dd></div>
+      <div><dt>Duration</dt><dd>${escapeHtml(d.duration)}</dd></div>
+    </div>
+    <div class="syllabus-label">Syllabus</div>
+    <ul class="syllabus">${d.syllabus.map(s=>`<li>${escapeHtml(s)}</li>`).join('')}</ul>
+    <a class="source-link" href="https://${d.remarks.split(' ')[0].replace(/^https?:\/\//,'')}" target="_blank" rel="noopener">${escapeHtml(d.remarks)} ↗</a>
+  `;
+}
+
+const modalOverlay = document.getElementById('modalOverlay');
+const modalBody = document.getElementById('modalBody');
+let lastFocused = null;
+
+function openModal(code){
+  const d = DATA.find(x=>x.code===code);
+  if(!d) return;
+  modalBody.innerHTML = modalBodyHtml(d);
+  lastFocused = document.activeElement;
+  modalOverlay.hidden = false;
+  document.getElementById('modalClose').focus();
+}
+function closeModal(){
+  modalOverlay.hidden = true;
+  if(location.hash.startsWith('#/course/')) location.hash = '#/';
+  if(lastFocused) lastFocused.focus();
+}
+document.getElementById('modalClose').addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', e=>{ if(e.target===modalOverlay) closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !modalOverlay.hidden) closeModal(); });
+
+function render(){
+  renderPathway();
+  renderChips();
+  renderMain();
+}
+
+document.getElementById('search').addEventListener('input', e=>{
+  state.q = e.target.value.trim();
+  render();
+});
+
+// theme
+const themeBtn = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+const themeLabel = document.getElementById('themeLabel');
+function applyTheme(t){
+  if(t){ document.documentElement.setAttribute('data-theme', t); }
+  else { document.documentElement.removeAttribute('data-theme'); }
+  const isDark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  themeIcon.textContent = isDark ? '☀️' : '🌙';
+  themeLabel.textContent = isDark ? 'Light' : 'Dark';
+  themeBtn.setAttribute('aria-pressed', isDark);
+}
+let saved = null;
+try{ saved = localStorage.getItem('nebosh-theme'); }catch(e){}
+applyTheme(saved);
+themeBtn.addEventListener('click', ()=>{
+  const current = document.documentElement.getAttribute('data-theme');
+  const isDarkNow = current === 'dark' || (!current && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const next = isDarkNow ? 'light' : 'dark';
+  applyTheme(next);
+  try{ localStorage.setItem('nebosh-theme', next); }catch(e){}
+});
+
+// deep link handling
+function handleHash(){
+  const m = location.hash.match(/^#\/course\/(.+)$/);
+  if(m){
+    openModal(decodeURIComponent(m[1]));
+  } else if(!modalOverlay.hidden){
+    modalOverlay.hidden = true;
+  }
+}
+window.addEventListener('hashchange', handleHash);
+
+render();
+handleHash();
+</script>
+</body>
+</html>
