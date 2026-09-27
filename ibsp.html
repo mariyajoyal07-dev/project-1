@@ -457,16 +457,166 @@ footer.site-footer{ background:#0A2540; color:rgba(255,255,255,0.6); text-align:
     <button id="dark-toggle">🌙 Dark mode</button>
   </div>
 
-<script src="course-data.js"></script>
 <script>
-  const app = document.getElementById('ec-app');
-  app.innerHTML = '<div class="ec-section"><div class="ec-container">Loading course catalogue...</div></div>';
-  loadCourseData()
-    .then(() => EOSHCourses.init({ headerMount: '#ec-header-mount', appMount: '#ec-app' }))
-    .catch(error => {
-      console.error('Unable to load course catalogue:', error);
-      app.innerHTML = '<div class="ec-section"><div class="ec-container"><p role="alert">Course catalogue could not be loaded. Please refresh to try again.</p></div></div>';
+  const COURSE_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSXMMRdkZwZSB9xqOMRwDOLbeTN176CwcvmvhL-V9vX1JpFuWuthjvTwG4kKed4yMl5NNMQByKIxeO3/pub?gid=818241969&single=true&output=csv";
+  window.COURSE_CATEGORIES = [];
+  window.SEARCH_INDEX = [];
+
+  function parseCourseCsv(text) {
+    const rows = [];
+    let row = [];
+    let cell = "";
+    let quoted = false;
+
+    for (let index = 0; index < text.length; index += 1) {
+      const character = text[index];
+      if (quoted) {
+        if (character === '"' && text[index + 1] === '"') {
+          cell += '"';
+          index += 1;
+        } else if (character === '"') {
+          quoted = false;
+        } else {
+          cell += character;
+        }
+      } else if (character === '"') {
+        quoted = true;
+      } else if (character === ",") {
+        row.push(cell);
+        cell = "";
+      } else if (character === "\n" || character === "\r") {
+        if (character === "\r" && text[index + 1] === "\n") index += 1;
+        row.push(cell);
+        if (row.some(value => value.trim())) rows.push(row);
+        row = [];
+        cell = "";
+      } else {
+        cell += character;
+      }
+    }
+
+    row.push(cell);
+    if (row.some(value => value.trim())) rows.push(row);
+    if (rows.length < 2) throw new Error("The course CSV contains no course rows.");
+
+    const headers = rows.shift().map(header => header.replace(/^\uFEFF/, "").trim().toUpperCase());
+    return rows.map(values => Object.fromEntries(headers.map((header, index) => [header, (values[index] || "").trim()])));
+  }
+
+  function courseSlug(value) {
+    return value.toLowerCase().trim().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "course";
+  }
+
+  async function loadCourseData() {
+    const response = await fetch(COURSE_CSV_URL, { cache: "no-store" });
+    if (!response.ok) throw new Error("Course CSV request failed: " + response.status);
+
+    const rows = parseCourseCsv(await response.text());
+    const categoryMap = new Map();
+    const searchIndex = [];
+    const accreditationHeader = rows[0]["ACCERDITION BODY"] !== undefined ? "ACCERDITION BODY" : "ACCREDITATION BODY";
+
+    rows.forEach((row, index) => {
+      const title = row.CERTIFICATION;
+      if (!title) return;
+
+      const categoryName = row.CATEGORY || "Other Courses";
+      const categorySlug = courseSlug(categoryName);
+      let category = categoryMap.get(categorySlug);
+      if (!category) {
+        category = {
+          name: categoryName,
+          slug: categorySlug,
+          icon: "📘",
+          cluster: categoryName,
+          blurb: `${categoryName} courses delivered with structured learning, practical assessment and verifiable certification.`,
+          courses: []
+        };
+        categoryMap.set(categorySlug, category);
+        searchIndex.push({ type: "category", label: category.name, sub: category.cluster, slug: category.slug, icon: category.icon, keywords: category.blurb });
+      }
+
+      const code = row["COURSE CODE"] || "";
+      let slug = courseSlug(title);
+      if (category.courses.some(course => course.slug === slug)) slug += "-" + (courseSlug(code) || String(index + 1));
+      const modules = (row.SYLLABUS || "").split("#").map(module => module.trim()).filter(Boolean);
+      const accreditation = row[accreditationHeader] || "Course completion certificate";
+      const course = {
+        title,
+        slug,
+        code,
+        summary: `${title} is a structured training programme designed to support workplace competence, compliance and operational safety through practical learning and assessment.`,
+        level: row.LEVEL || "Professional Training",
+        duration: row.DURATION || "Contact for details",
+        mode: row["ASSESSMENT TYPE"] || "Assessment",
+        certification: accreditation,
+        notes: row.REMARKS || "",
+        outcomes: modules.length ? modules.slice(0, 5).map(module => `Demonstrate competence in ${module.toLowerCase()} through applied workplace practice and assessment.`) : ["Course-specific skills and knowledge"],
+        modules: modules.length ? modules : ["Course content provided on enrolment"],
+        careers: ["Safety Officer", "Supervisor", "Compliance Coordinator", "Operations Team Lead"],
+        faqs: [{ q: "Is this course accredited?", a: `Yes — ${accreditation}.` }],
+        eligibility: "Contact us for eligibility information.",
+        assessment: row["ASSESSMENT TYPE"] || "Assessment details will be provided with the course information."
+      };
+      category.courses.push(course);
+      searchIndex.push({ type: "course", label: course.title, sub: category.name + " · " + course.code, slug: category.slug + "/" + course.slug, icon: category.icon, keywords: course.summary + " " + course.code + " " + course.level });
     });
+
+    if (!categoryMap.size) throw new Error("The course CSV contains no usable course records.");
+    window.COURSE_CATEGORIES.push(...categoryMap.values());
+    window.SEARCH_INDEX.push(...searchIndex);
+  }
+
+  window.EOSHCourses = {
+    init(options) {
+      const mount = document.querySelector(options.appMount);
+      const escapeHtml = value => String(value || "").replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
+      const categoryCard = category => `<a class="ec-card" href="#/courses/${category.slug}" style="display:block"><div class="ec-card-top"><div class="ec-card-icon">${category.icon}</div><span class="ec-tab">${category.courses.length} courses</span></div><h3>${escapeHtml(category.name)}</h3><p>${escapeHtml(category.blurb)}</p><div class="ec-card-foot"><span class="ec-code">${escapeHtml(category.cluster)}</span><span class="ec-link-arrow">Explore →</span></div></a>`;
+      const courseCard = (category, course) => `<a class="ec-card" href="#/course/${category.slug}/${course.slug}" style="display:block"><div class="ec-card-top"><div class="ec-card-icon">${category.icon}</div><span class="ec-tab">${escapeHtml(course.level)}</span></div><h3>${escapeHtml(course.title)}</h3><p>${escapeHtml(course.summary)}</p><div class="ec-card-meta"><span>${escapeHtml(course.duration)}</span><span>${escapeHtml(course.mode)}</span></div><div class="ec-card-foot"><span class="ec-code">${escapeHtml(course.code)}</span><span class="ec-link-arrow">View course →</span></div></a>`;
+      const hero = (title, lede) => `<section class="ec-hero"><div class="ec-container"><span class="ec-eyebrow" style="color:var(--ec-blue-light)">IBSP Course Catalogue</span><h1>${escapeHtml(title)}</h1><p class="ec-lede">${escapeHtml(lede)}</p></div></section>`;
+
+      function render() {
+        const [path, queryString = ""] = (location.hash.slice(1) || "/courses-home").split("?");
+        const params = new URLSearchParams(queryString);
+        let content = "";
+        if (path.startsWith("/course/")) {
+          const [, , categorySlug, courseSlug] = path.split("/");
+          const category = window.COURSE_CATEGORIES.find(item => item.slug === categorySlug);
+          const course = category?.courses.find(item => item.slug === courseSlug);
+          content = course ? `${hero(course.title, course.summary)}<section class="ec-section"><div class="ec-container ec-detail-layout"><div><div class="ec-panel"><h2>Course Overview</h2><p>${escapeHtml(course.summary)} ${escapeHtml(course.notes)}</p></div><div class="ec-panel"><h2>Learning Outcomes</h2><ul class="ec-outcome-list">${course.outcomes.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div class="ec-panel"><h2>Syllabus &amp; Modules</h2><ul class="ec-module-list">${course.modules.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div></div><aside class="ec-sticky"><div class="ec-apply-card"><h3>${escapeHtml(course.title)}</h3><div class="row"><span>Duration</span><span>${escapeHtml(course.duration)}</span></div><div class="row"><span>Assessment</span><span>${escapeHtml(course.assessment)}</span></div><div class="row"><span>Level</span><span>${escapeHtml(course.level)}</span></div><div class="row"><span>Certification</span><span>${escapeHtml(course.certification)}</span></div></div></aside></div></section>` : `<section class="ec-section"><div class="ec-container ec-search-empty"><strong>Course not found</strong><a href="#/courses">Back to all courses</a></div></section>`;
+        } else if (path.startsWith("/courses/") && !params.has("q")) {
+          const category = window.COURSE_CATEGORIES.find(item => item.slug === path.split("/")[2]);
+          content = category ? `${hero(category.name, category.blurb)}<section class="ec-section"><div class="ec-container"><div class="ec-filter-row" style="margin-bottom:28px"><a class="ec-chip" href="#/courses">All courses</a>${window.COURSE_CATEGORIES.map(item => `<a class="ec-chip ${item.slug === category.slug ? "is-active" : ""}" href="#/courses/${item.slug}">${escapeHtml(item.name)}</a>`).join("")}</div><div class="ec-grid">${category.courses.map(course => courseCard(category, course)).join("")}</div></div></section>` : `<section class="ec-section"><div class="ec-container ec-search-empty"><strong>Category not found</strong><a href="#/courses">Back to all courses</a></div></section>`;
+        } else if (path.startsWith("/courses")) {
+          const query = (params.get("q") || "").toLowerCase();
+          const courses = window.COURSE_CATEGORIES.flatMap(category => category.courses.map(course => ({ category, course }))).filter(({ category, course }) => (course.title + " " + category.name + " " + course.code + " " + course.level).toLowerCase().includes(query));
+          content = `${hero(query ? `Results for “${params.get("q") || ""}”` : "All Courses & Qualifications", `${courses.length} courses in the IBSP catalogue.`)}<section class="ec-section"><div class="ec-container"><div class="ec-filter-row" style="margin-bottom:28px"><a class="ec-chip ${!query ? "is-active" : ""}" href="#/courses">All</a>${window.COURSE_CATEGORIES.map(category => `<a class="ec-chip" href="#/courses/${category.slug}">${escapeHtml(category.name)}</a>`).join("")}</div>${courses.length ? `<div class="ec-grid">${courses.map(({ category, course }) => courseCard(category, course)).join("")}</div>` : '<div class="ec-search-empty"><strong>No results found</strong>Try a different keyword or browse a category.</div>'}</div></section>`;
+        } else {
+          const count = window.COURSE_CATEGORIES.reduce((total, category) => total + category.courses.length, 0);
+          content = `<section class="ec-hero-home"><div class="stripes"></div><div class="ec-container"><span class="ec-eyebrow" style="color:var(--ec-blue-light)">IBSP Accredited Training</span><h1 style="color:#fff">International safety qualifications for the modern workplace.</h1><p class="ec-lede">Browse ${count} qualifications across ${window.COURSE_CATEGORIES.length} categories.</p></div></section><section class="ec-section"><div class="ec-container"><div class="ec-section-head"><div><span class="ec-eyebrow">Full catalogue</span><h2>Browse by Category</h2></div></div><div class="ec-grid">${window.COURSE_CATEGORIES.map(categoryCard).join("")}</div></div></section>`;
+        }
+        mount.innerHTML = `<div class="ec-scope">${content}</div>`;
+      }
+
+      window.addEventListener("hashchange", render);
+      render();
+    }
+  };
+
+  const app = document.getElementById('ec-app');
+  async function startCourseApp() {
+    app.innerHTML = '<div class="ec-scope"><div class="ec-section"><div class="ec-container" role="status" aria-live="polite">Loading course catalogue...</div></div></div>';
+    try {
+      await loadCourseData();
+      EOSHCourses.init({ headerMount: '#ec-header-mount', appMount: '#ec-app' });
+    } catch (error) {
+      console.error('Unable to load course catalogue:', error);
+      app.innerHTML = '<div class="ec-scope"><div class="ec-section"><div class="ec-container"><p role="alert">Course catalogue could not be loaded. Please check your connection and try again.</p><button class="ec-btn ec-btn-primary" id="ec-retry-load" type="button">Retry</button></div></div></div>';
+      app.querySelector('#ec-retry-load').addEventListener('click', startCourseApp);
+    }
+  }
+
+  startCourseApp();
 
   function performSearch() {
     var input = document.getElementById('site-search');
