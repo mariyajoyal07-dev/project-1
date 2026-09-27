@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EOSH-Style Courses Module — All-in-One</title>
+<title>Pro Skyllz — BOSH Courses</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
@@ -436,14 +436,14 @@ footer.site-footer{ background:#0A2540; color:rgba(255,255,255,0.6); text-align:
   <header class="site-header">
 
     <a href="index.html">
-  <img src="https://media.licdn.com/dms/image/v2/D4D03AQF0OiVvcnXRXg/profile-displayphoto-shrink_200_200/B4DZPHe3lSHYAc-/0/1734218579384?e=2147483647&v=beta&t=b6tIpswHPIxyFLQLhHEjKrIxjJWCjyb6JewtoQ_4E10" alt="Company Logo" class="site-logo">
-</a>
+      <img src="https://media.licdn.com/dms/image/v2/D4D03AQF0OiVvcnXRXg/profile-displayphoto-shrink_200_200/B4DZPHe3lSHYAc-/0/1734218579384?e=2147483647&v=beta&t=b6tIpswHPIxyFLQLhHEjKrIxjJWCjyb6JewtoQ_4E10" alt="Company Logo" class="site-logo">
+    </a>
 
     <nav class="site-nav">
       <a href="#/courses-home">Home</a>
       <div>
-  <input type="text" id="site-search" placeholder="Search courses here" onkeydown="if(event.key === 'Enter') performSearch()">
-  <button onclick="performSearch()">Search</button>
+        <input type="text" id="site-search" placeholder="Search courses here" onkeydown="if(event.key === 'Enter') performSearch()">
+        <button onclick="performSearch()">Search</button>
       </div>
     </nav>
   </header>
@@ -457,7 +457,116 @@ footer.site-footer{ background:#0A2540; color:rgba(255,255,255,0.6); text-align:
     <button id="dark-toggle">🌙 Dark mode</button>
   </div>
 
-<script src="course-data.js"></script>
+  <script>
+    const COURSE_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSXMMRdkZwZSB9xqOMRwDOLbeTN176CwcvmvhL-V9vX1JpFuWuthjvTwG4kKed4yMl5NNMQByKIxeO3/pub?gid=189295246&single=true&output=csv";
+    window.COURSE_CATEGORIES = [];
+    window.SEARCH_INDEX = [];
+
+    function parseCourseCsv(text) {
+      const rows = [];
+      let row = [];
+      let cell = "";
+      let quoted = false;
+
+      for (let index = 0; index < text.length; index++) {
+        const character = text[index];
+        if (quoted) {
+          if (character === '"' && text[index + 1] === '"') {
+            cell += '"';
+            index++;
+          } else if (character === '"') {
+            quoted = false;
+          } else {
+            cell += character;
+          }
+        } else if (character === '"') {
+          quoted = true;
+        } else if (character === ",") {
+          row.push(cell);
+          cell = "";
+        } else if (character === "\n" || character === "\r") {
+          if (character === "\r" && text[index + 1] === "\n") index++;
+          row.push(cell);
+          if (row.some(value => value.trim())) rows.push(row);
+          row = [];
+          cell = "";
+        } else {
+          cell += character;
+        }
+      }
+
+      row.push(cell);
+      if (row.some(value => value.trim())) rows.push(row);
+      if (rows.length < 2) throw new Error("The course CSV contains no course rows.");
+
+      const headers = rows.shift().map((header, index) =>
+        (index === 0 ? header.replace(/^\uFEFF/, "") : header).trim().toUpperCase()
+      );
+      return rows.map(values => Object.fromEntries(headers.map((header, index) => [header, (values[index] || "").trim()])));
+    }
+
+    function courseSlug(value) {
+      return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "course";
+    }
+
+    async function loadCourseData() {
+      const response = await fetch(COURSE_CSV_URL);
+      if (!response.ok) throw new Error("Course CSV request failed: " + response.status);
+
+      const rows = parseCourseCsv(await response.text());
+      const categoryMap = new Map();
+      const searchIndex = [];
+
+      rows.forEach((row, index) => {
+        const title = row["COURSE NAME"] || "Untitled Course";
+        const code = row["COURSE CODE"] || "";
+        const categoryName = row["CATEGORY"] || "Other Courses";
+        const categorySlug = courseSlug(categoryName);
+        const summary = row["DESCRIPTION"] || "Course details will be available soon.";
+        let category = categoryMap.get(categorySlug);
+
+        if (!category) {
+          category = {
+            name: categoryName,
+            slug: categorySlug,
+            icon: "C",
+            cluster: row["CLUSTER"] || "Courses",
+            blurb: row["CATEGORY DESCRIPTION"] || "Explore our " + categoryName + " qualifications.",
+            courses: []
+          };
+          categoryMap.set(categorySlug, category);
+          searchIndex.push({ type: "category", label: category.name, sub: category.cluster, slug: category.slug, icon: category.icon, keywords: category.blurb });
+        }
+
+        let slug = courseSlug(title);
+        if (category.courses.some(course => course.slug === slug)) slug += "-" + (courseSlug(code) || String(index + 1));
+
+        const course = {
+          title,
+          slug,
+          code,
+          summary,
+          level: row["LEVEL"] || "Professional Training",
+          duration: row["DURATION"] || "Contact for details",
+          mode: row["MODE"] || row["DELIVERY MODE"] || "Flexible",
+          certification: row["CERTIFICATION"] || "Course completion certificate",
+          notes: row["NOTES"] || "",
+          outcomes: (row["LEARNING OUTCOMES"] || "Course-specific skills and knowledge").split(/[|;]/).map(value => value.trim()).filter(Boolean),
+          modules: (row["MODULES"] || "Course content provided on enrolment").split(/[|;]/).map(value => value.trim()).filter(Boolean),
+          careers: (row["CAREER OPPORTUNITIES"] || "Related roles in the field").split(/[|;]/).map(value => value.trim()).filter(Boolean),
+          faqs: [],
+          eligibility: row["ELIGIBILITY"] || "Contact us for eligibility information.",
+          assessment: row["ASSESSMENT"] || "Assessment details will be provided with the course information."
+        };
+        category.courses.push(course);
+        searchIndex.push({ type: "course", label: course.title, sub: category.name + " · " + course.code, slug: category.slug + "/" + course.slug, icon: category.icon, keywords: course.summary + " " + course.code + " " + course.level });
+      });
+
+      window.COURSE_CATEGORIES.push(...categoryMap.values());
+      window.SEARCH_INDEX.push(...searchIndex);
+    }
+  </script>
+
 <script>
 /**
  * EOSH-STYLE COURSES MODULE
@@ -471,10 +580,10 @@ footer.site-footer{ background:#0A2540; color:rgba(255,255,255,0.6); text-align:
  */
 
 (function (global) {
-  let CATEGORIES = global.COURSE_CATEGORIES || [];
-  let INDEX = global.SEARCH_INDEX || [];
+  const CATEGORIES = global.COURSE_CATEGORIES || [];
+  const INDEX = global.SEARCH_INDEX || [];
   const RECENT_KEY = "ec_recent_searches";
-  const POPULAR = ["Health & Safety", "Fire Safety", "First Aid", "Confined Space", "Work at Height"];
+  const POPULAR = CATEGORIES.flatMap(c => [c.name, ...c.courses.slice(0, 2).map(co => co.title)]).slice(0, 5);
 
   let cfg = { headerMount: null, appMount: null };
 
@@ -803,7 +912,7 @@ footer.site-footer{ background:#0A2540; color:rgba(255,255,255,0.6); text-align:
           <div>
             <div class="ec-panel">
               <h2>Course Overview</h2>
-              <p style="color:var(--ec-ink-soft);line-height:1.7;font-size:14.5px;">${escapeHtml(course.summary)} This qualification is delivered against an ISO/IEC 17024-aligned competence framework, combining structured learning with applied assessment so certificate holders can demonstrate real workplace capability, not just attendance.</p>
+              <p style="color:var(--ec-ink-soft);line-height:1.7;font-size:14.5px;">${escapeHtml(course.summary)}${course.notes ? " " + escapeHtml(course.notes) : ""}</p>
             </div>
             <div class="ec-panel">
               <h2>Learning Outcomes</h2>
@@ -834,7 +943,7 @@ footer.site-footer{ background:#0A2540; color:rgba(255,255,255,0.6); text-align:
               <div class="row"><span>Duration</span><span>${escapeHtml(course.duration)}</span></div>
               <div class="row"><span>Delivery mode</span><span>${escapeHtml(course.mode)}</span></div>
               <div class="row"><span>Level</span><span>${escapeHtml(course.level)}</span></div>
-              <div class="row"><span>Certification</span><span style="text-align:right;max-width:180px;">ISO/IEC 17024-aligned</span></div>
+              <div class="row"><span>Certification</span><span style="text-align:right;max-width:180px;">${escapeHtml(course.certification)}</span></div>
             </div>
             <div class="ec-panel" style="margin-top:20px;">
               <h2 style="font-size:15px;">Eligibility</h2>
@@ -1002,8 +1111,6 @@ footer.site-footer{ background:#0A2540; color:rgba(255,255,255,0.6); text-align:
   // ---------------------------------------------------------------- init
   function init(options) {
     cfg = Object.assign(cfg, options || {});
-    CATEGORIES = global.COURSE_CATEGORIES || [];
-    INDEX = global.SEARCH_INDEX || [];
     if (cfg.headerMount) renderHeaderAddon();
     if (cfg.appMount) {
       window.addEventListener("hashchange", router);
@@ -1024,6 +1131,12 @@ footer.site-footer{ background:#0A2540; color:rgba(255,255,255,0.6); text-align:
       console.error('Unable to load course catalogue:', error);
       app.innerHTML = '<div class="ec-section"><div class="ec-container"><p role="alert">Course catalogue could not be loaded. Please refresh to try again.</p></div></div>';
     });
+
+  function performSearch() {
+    var input = document.getElementById('site-search');
+    var q = input ? input.value.trim() : '';
+    location.hash = '#/courses' + (q ? ('?q=' + encodeURIComponent(q)) : '');
+  }
 
   const darkBtn = document.getElementById('dark-toggle');
   darkBtn.addEventListener('click', () => {

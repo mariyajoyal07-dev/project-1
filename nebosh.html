@@ -466,29 +466,6 @@ footer.site-footer{ background:#0A2540; color:rgba(255,255,255,0.6); text-align:
  * This file is the single source of truth for the Courses module:
  * navigation mega-menu, global search index, category pages and
  * course detail pages are all generated from this object.
- *
- * NOTE ON SOURCING:
- * The 27 category names below match the official qualification list
- * (confirmed live from the awarding body's public qualification-search
- * tool). For categories where a full course-by-course breakdown is
- * publicly listed, `courses` is populated with the real course titles.
- * For categories that exist as top-level qualification areas but do not
- * (yet) have a published itemised syllabus list, `courses` is left as an
- * empty array and `detailedListPending: true` is set — the UI renders an
- * honest "full syllabus on request" state for these instead of inventing
- * course names. Populate `courses` for those categories at any time and
- * the UI updates automatically; no other file needs to change.
- *
- * SCHEMA
- * categories: [{
- *   id, name, slug, cluster, icon (emoji placeholder — swap for your icon set),
- *   blurb, detailedListPending,
- *   courses: [{
- *     id, title, slug, level, duration, mode, code,
- *     summary, outcomes[], modules[], eligibility, certification,
- *     assessment, careers[], faqs[{q,a}]
- *   }]
- * }]
  */
 
 function mkCourse(c) {
@@ -513,189 +490,6 @@ function mkCourse(c) {
     ...c,
   };
 }
-
-const ATTACHED_COURSE_DATA = `SL.NO,COURSE CODE,CATEGORY,ACCREDITATION BODY,CERTIFICATION,LEVEL,DURATION,ASSESSMENT TYPE,SYLLABUS,REMARKS
-1,NEBOSH-AW-01,Award,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",Health and Safety at Work Award,Award (Introductory),typically 1-3 days,Multiple-choice / short-answer assessment,"#Considers how health and safety is managed, and how it could be done better.
-#Identifies health and safety hazards, how they are controlled and if the risk can be reduced.
-#Select the most important hazard for improvement.",nebosh.org.uk/qualifications/health-and-safety-at-work-award
-2,NEBOSH-AW-02,Award,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",Award in Environmental Awareness at Work,Award (Introductory),typically 1-3 days,Multiple-choice / short-answer assessment,"#The meanings of basic environmental terms
-#Importance and benefits of sustainable development
-#The individual's role in a certified Environmental Management System (EMS)
-#Air, water, and land pollution
-#Dealing with emergencies",nebosh.org.uk/qualifications/environmental-awareness
-3,NEBOSH-AW-03,Award,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",NEBOSH HSE Introduction to Incident Investigation,Award (Introductory),typically 1-3 days,Multiple-choice / short-answer assessment,"#Moral, legal and financial arguments for investigations
-#Human and organisational factors that can contribute to an incident
-#The process for investigating incidents
-#Positive interview strategies and the barriers to successful interviews",nebosh.org.uk/qualifications/nebosh-hse-introduction-to-incident-investigation
-4,NEBOSH-AW-04,Award,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",Working with Wellbeing,Award (Introductory),typically 1-3 days,Multiple-choice / short-answer assessment,"#what ‘wellbeing’ is and why it matters
-#the different factors that can positively and negatively impact wellbeing
-#the benefits of achieving good worker wellbeing
-#practical initiatives that can improve wellbeing",nebosh.org.uk/qualifications/working-with-wellbeing
-5,NEBOSH-AW-05,Award,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",NEBOSH HSE Award in Managing Risks and Risk Assessment at Work,Award (Introductory),typically 1-3 days,Multiple-choice / short-answer assessment,"#Develop straightforward practical skills to manage workplace risks; something all employers need
-#Build confidence in your risk assessment capabilities
-#Contribute to the creation of a safer and healthier workplace as soon as you return to work.",nebosh.org.uk/qualifications/nebosh-hse-award-in-managing-risks
-6,NEBOSH-CERT-06,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",National General Certificate in Occupational Health and Safety,Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"#Confidently carry out risk assessments
-#Develop and implement a detailed action plan
-#Manage and minimise workplace risks
-#Support and develop your company’s health and safety culture",nebosh.org.uk/qualifications/national-general-certificate
-7,NEBOSH-CERT-07,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",International General Certificate in Occupational Health and Safety,Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"#Confidently carry out risk assessments
-#Develop and implement a detailed action plan
-#Manage and minimise workplace risks
-#Support and develop your company’s health and safety culture",nebosh.org.uk/qualifications/international-general-certificate
-8,NEBOSH-CERT-08,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",Health and Safety Management for Construction (UK),Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"#Technical know-how to comply with legislation and implement best practice
-#Practical skills to apply back in the workplace
-#Confidence to influence your colleagues to work more safely
-#Ability to adapt to changing workplaces and sites.",nebosh.org.uk/qualifications/health-and-safety-management-for-construction-uk
-9,NEBOSH-CERT-09,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",Health and Safety Management for Construction (International),Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"#Technical know-how to comply with legislation and implement best practice
-#Practical skills to apply back in the workplace
-#Confidence to influence your colleagues to work more safely
-#Ability to adapt to changing workplaces and sites.",nebosh.org.uk/qualifications/health-and-safety-management-for-construction-international
-10,NEBOSH-CERT-10,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",NEBOSH IIRSM Certificate in Managing Risk,Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"#the principles of risk and risk management
-#the risk management process and framework based on ISO 31000
-#the relationship between psychology and decision-making
-#how to analyse the environment in which an organisation operates#identifying potential risks and opportunities
-#the relationship between risk management, business continuity, crisis management and organisational resilience.",nebosh.org.uk/qualifications/nebosh-iirsm-certificate-in-managing-risk
-11,NEBOSH-CERT-11,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",NEBOSH HSE Certificate in Process Safety Management,Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"#Process safety leadership
-#Management of process risk
-#Process safety hazard control
-#Fire and explosion protection
-#Establishment of process management systems
-#Asset management and maintenance strategies
-#Safe start-up and shutdown of process plant
-#Performance standards for safety critical systems and equipment
-#Hazards and controls for chemical reactions
-#Hazards and controls for bulk storage of dangerous substances
-#Hazards and controls for fire and explosion
-#Purpose and features of emergency plans",nebosh.org.uk/qualifications/nebosh-hse-certificate-in-process-safety-management
-12,NEBOSH-CERT-12,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",NEBOSH HSE Certificate in Health and Safety Leadership Excellence,Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"# What health and safety leadership means
-# The moral, legal and business reasons for good health and safety leadership
-# The links between health and safety leadership and culture
-# What the different leadership styles are
-# How human failures can impact performance and culture
-# The HSE’s model of effective health and safety leadership
-# How leaders can build effective relationships with the workforce",nebosh.org.uk/qualifications/nebosh-hse-certificate-in-health-and-safety-leadership-excellence
-13,NEBOSH-CERT-13,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",International Technical Certificate in Oil and Gas Operational Safety,Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"# Hazards inherent in the extraction, storage and processing of raw materials and products
-# Hydrocarbon process safety
-# Risk management techniques used in the oil and gas industries
-# Contractor management
-# Fire and explosion controls in the oil and gas industries
-# Marine and Land logistics
-
-# Health, safety and environmental management in context
-# Hydrocarbon process safety (1)
-# Hydrocarbon process safety (2)
-# Fire protection and emergency response
-# Logistics and transport operations",nebosh.org.uk/qualifications/international-oil-and-gas-certificate
-14,NEBOSH-CERT-14,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",Environmental Management Certificate,Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"# Understand a range of environmental issues so that you can improve environmental performance and reduce harm
-# Work within an environmental management system and contribute to continual improvement
-# Recognise environmental aspects and associated impacts, and evaluate the effectiveness of existing controls
-# Support decision-making with ethical, legal and financial arguments
-# Understand the links between your organisation’s activities and wider environmental issues",nebosh.org.uk/qualifications/environmental-management-certificate
-15,NEBOSH-CERT-15,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",Certificate in Fire Safety,Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"# Hazards inherent in the extraction, storage and processing of raw materials and products
-# Hydrocarbon process safety
-# Risk management techniques used in the oil and gas industries
-# Contractor management
-# Fire and explosion controls in the oil and gas industries
-# Marine and Land logistics
-
-# Health, safety and environmental management in context
-# Hydrocarbon process safety (1)
-# Hydrocarbon process safety (2)
-# Fire protection and emergency response
-# Logistics and transport operations",nebosh.org.uk/qualifications/certificate-in-fire-safety
-16,NEBOSH-CERT-16,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",NEBOSH HSE Certificate in Manual Handling Risk Assessment,Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"# Explain the importance of reducing risks associated with manual handling activities
-# Understand responsibilities in relation to manual handling
-# Explain what manual handling risks are and how they may result in injury
-# Demonstrate and practice appropriate manual handling risk assessment technique
-# Apply wider elements of risk management for manual handling
-
-# Protect team members from one of the main causes of musculoskeletal disorders
-# Have confidence that the approach adopted to manual handling risk assessment reflects best practice and utilises HSE manual handling tools and templates",nebosh.org.uk/qualifications/nebosh-hse-certificate-in-manual-handling-risk-assessment
-17,NEBOSH-CERT-17,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",NEBOSH HSE Certificate in Managing Stress at Work,Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"# How to recognise the causes and effects of workplace stress
-# The responsibilities of employers and individual roles in managing workplace stress
-# How to apply the HSE’s Management Standards approach to assess stress risks in the workplace
-# How to develop suitable interventions to address stressors, reduce negative impacts, and manage the effects of stress in the workplace
-# Ways to continually improve your organisation and create a great place to work",nebosh.org.uk/qualifications/nebosh-hse-certificate-in-managing-stress-at-work
-18,NEBOSH-CERT-18,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",NEBOSH National Certificate in Protecting Standard Duty Premises from Terrorism,Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"# The nature of terrorism and the legal framework
-# UK threat levels and organisational duties
-# Understanding terrorist threats and site vulnerabilities
-# Implementing public protection procedures
-# Developing a strong security culture",nebosh.org.uk/qualifications/national-protecting-standard-duty-premises-from-terrorism
-19,NEBOSH-CERT-19,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",NEBOSH National Certificate in Protecting Enhanced Duty Premises and Events from Terrorism,Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"# The nature of terrorism and the legal framework
-# UK threat levels and organisational duties
-# Understanding terrorist threats and site vulnerabilities
-# Implementing public protection procedures
-# Implementing public protection measures
-# Documenting compliance with the 2025 Act
-# Business continuity and recovery
-# Developing a strong security culture",nebosh.org.uk/qualifications/national-protecting-enhanced-duty-premises-and-events-from-terrorism
-20,NEBOSH-CERT-20,Certificate,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",NEBOSH International Certificate in Protecting Premises and Events from Terrorism,Certificate (Foundation/Management),typically 1-4 weeks,Written examination + practical/workplace-based assessment,"# The nature of terrorism and the legal framework
-# UK threat levels and organisational duties
-# Understanding terrorist threats and site vulnerabilities
-# Implementing public protection procedures
-# Implementing public protection measures
-# Documenting compliance with the 2025 Act
-# Business continuity and recovery
-# Developing a strong security culture",nebosh.org.uk/qualifications/international-protecting-premises-and-events-from-terrorism
-21,NEBOSH-DIP-21,Diploma,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",NEBOSH Level 6 National Diploma for Occupational Health and Safety Management Professionals,Level 6 / Professional Diploma,typically 12-18 months part-time,Written examinations + work-based practical assessment/portfolio,"# Understand how health and safety legislation is applied in a workplace and the possible enforcement actions that could be taken
-# Identify and effectively communicate relevant health and safety information
-# Advise on a range of common workplace health and safety issues including how these can be assessed, controlled and monitored
-# Develop a health and safety policy strategy (including proactive safety, Corporate Social Responsibility and the change management process)
-# Contribute to a risk management strategy
-# Promote a positive health and safety culture
-# Develop and audit health and safety management systems
-# Maintain individual and organisational health and safety competence
-# Manage contractors and supply chains to ensure compliance with health and safety standards",nebosh.org.uk/qualifications/national-diploma-for-safety-and-health-management-professionals
-22,NEBOSH-DIP-22,Diploma,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",NEBOSH Level 6 International Diploma for Occupational Health and Safety Management Professionals,Level 6 / Professional Diploma,typically 12-18 months part-time,Written examinations + work-based practical assessment/portfolio,"# Advise on the types of legislation likely to apply, the relevance of ILO and non-government bodies’ guidance and possible enforcement actions
-# Identify and effectively communicate relevant health and safety information
-# Advise on a range of common workplace health and safety issues including how these can be assessed, controlled and monitored
-# Develop a health and safety policy strategy (including proactive safety, Corporate Social Responsibility and the change management process)
-# Contribute to a risk management strategy
-# Promote a positive health and safety culture
-# Develop and audit health and safety management systems
-# Maintain individual and organisational health and safety competence
-# Manage contractors and supply chains to ensure compliance with health and safety standards",nebosh.org.uk/qualifications/international-diploma-for-health-and-safety-management-professionals
-23,NEBOSH-DIP-23,Diploma,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",National Diploma in Environmental Management,Level 6 / Professional Diploma,typically 12-18 months part-time,Written examinations + work-based practical assessment/portfolio,"# Benefits, limitations and structure of an environmental management system
-# Environmental aspect identification and control
-# The principles and drivers for environmental sustainability
-# Waste minimisation strategies
-
-# Unit ED1: Controlling environmental aspects
-# Unit NDEM2: Environmental Regulation",nebosh.org.uk/qualifications/environmental-diploma
-24,NEBOSH-DIP-24,Diploma,"NEBOSH (National Examination Board in Occupational Safety and Health), UK",International Diploma in Environmental Management,Level 6 / Professional Diploma,typically 12-18 months part-time,Written examinations + work-based practical assessment/portfolio,"# Benefits, limitations and structure of an environmental management system
-# Environmental aspect identification and control
-# The principles and drivers for environmental sustainability
-# Waste minimisation strategies
-
-# Unit ED1: Controlling environmental aspects
-# Unit NDEM2: Environmental Regulation",nebosh.org.uk/qualifications/international-diploma-in-environmental-management
-25,NEBOSH-MSC-25,Masters,"NEBOSH (National Examination Board in Occupational Safety and Health), UK; delivered in partnership with the University of Hull",NEBOSH Master of Science (MSc) degrees,Postgraduate,typically 12-18 months part-time,University assessment (dissertation/research project),"# Research Methods
-# Literature Review
-# Designing Research Projects
-
-# Advanced Health, Safety and Environmental Risk Management (MSc Occupational Health, Safety and Environmental Management)
-# Corporate Social Responsibility in Health, Safety and Environmental Management (MSc Occupational Health, Safety and Environmental Management)
-
-# Advanced Health and Safety Risk Management (MSc Occupational Health and Safety Management)
-# Corporate Social Responsibility in Health and Safety Management (MSc Occupational Health and Safety Management)
-
-# Environmental Sustainability and Corporate Social Responsibility (MSc Environmental Management)
-# Ecological Services and Environmental Economics (MSc Environmental Management)
-
-# Disaster and Emergency Management (Optional for all MSc)
-# Safety Case Production and Assessment (Optional for all MSc)
-# Mental Health at Work (Optional for MSc Occupational Health, Safety and Environmental Management, MSc Occupational Health and Safety Management)
-# Flood Risk Management (Optional for MSc Occupational Health, Safety and Environmental Management, MSc Environmental Management)
-
-# MSc Research Dissertation",nebosh.org.uk/qualifications/nebosh-master-of-science-msc-degrees — open to NEBOSH Diploma holders
-26,NEBOSH-MSC-26,Masters,"NEBOSH (National Examination Board in Occupational Safety and Health), UK; delivered in partnership with the University of Hull",NEBOSH Master of Research (MRes) degrees,Postgraduate,typically 12-18 months part-time,University assessment (dissertation/research project),"# Research Methods
-# Literature Review
-# Designing Research Projects
-
-# Workplace Research Project (Semester 3, Year 1 and Year 2)
-# Formulate research question
-# Collect and analyse data
-# Produce dissertation with findings and conclusions",nebosh.org.uk/qualifications/nebosh-master-of-research-mres-degrees — open to NEBOSH Diploma holders`;
 
 function cleanCsvCell(value) {
   return String(value || "")
@@ -781,8 +575,8 @@ function inferCategoryFromTitle(title, fallback) {
   return fallback || "General";
 }
 
-function buildAttachmentCatalog() {
-  const rows = parseCsvRows(ATTACHED_COURSE_DATA);
+function buildAttachmentCatalog(csvText) {
+  const rows = parseCsvRows(csvText);
   if (!rows.length) {
     return [];
   }
@@ -884,7 +678,7 @@ function buildAttachmentCatalog() {
   return Array.from(categories.values());
 }
 
-const COURSE_CATEGORIES = buildAttachmentCatalog();
+let COURSE_CATEGORIES = [];
 
 // ---- helpers -------------------------------------------------------------
 
@@ -910,14 +704,14 @@ function buildSearchIndex(categories) {
   return index;
 }
 
+let SEARCH_INDEX = [];
 
-
-const SEARCH_INDEX = buildSearchIndex(COURSE_CATEGORIES);
-
-// UMD-ish export so this works as a plain script tag or a module
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = { COURSE_CATEGORIES, SEARCH_INDEX, slugify };
-} else {
+async function loadCourseData() {
+  const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSXMMRdkZwZSB9xqOMRwDOLbeTN176CwcvmvhL-V9vX1JpFuWuthjvTwG4kKed4yMl5NNMQByKIxeO3/pub?gid=773695980&single=true&output=csv";
+  const response = await fetch(CSV_URL);
+  const csvText = await response.text();
+  COURSE_CATEGORIES = buildAttachmentCatalog(csvText);
+  SEARCH_INDEX = buildSearchIndex(COURSE_CATEGORIES);
   window.COURSE_CATEGORIES = COURSE_CATEGORIES;
   window.SEARCH_INDEX = SEARCH_INDEX;
   window.slugify = slugify;
@@ -929,18 +723,15 @@ if (typeof module !== "undefined" && module.exports) {
  * EOSH-STYLE COURSES MODULE
  * -------------------------
  * Vanilla JS, no build step. Depends on courses-data.js being loaded first.
- * Designed to be appended to an existing site. See README.md for the
- * exact markup and initialisation snippet.
- *
  * Routing is hash-based (#/courses, #/courses/:category, #/course/:category/:slug)
  * so it can be dropped into any existing site without a server/router change.
  */
 
 (function (global) {
-  const CATEGORIES = global.COURSE_CATEGORIES || [];
-  const INDEX = global.SEARCH_INDEX || [];
+  let CATEGORIES = global.COURSE_CATEGORIES || [];
+  let INDEX = global.SEARCH_INDEX || [];
   const RECENT_KEY = "ec_recent_searches";
-  const POPULAR = CATEGORIES.flatMap(c => [c.name, ...c.courses.slice(0, 2).map(co => co.title)]).slice(0, 5);
+  let POPULAR = [];
 
   let cfg = { headerMount: null, appMount: null };
 
@@ -1468,6 +1259,9 @@ if (typeof module !== "undefined" && module.exports) {
   // ---------------------------------------------------------------- init
   function init(options) {
     cfg = Object.assign(cfg, options || {});
+    CATEGORIES = global.COURSE_CATEGORIES || [];
+    INDEX = global.SEARCH_INDEX || [];
+    POPULAR = CATEGORIES.flatMap(c => [c.name, ...c.courses.slice(0, 2).map(co => co.title)]).slice(0, 5);
     if (cfg.headerMount) renderHeaderAddon();
     if (cfg.appMount) {
       window.addEventListener("hashchange", router);
@@ -1480,7 +1274,9 @@ if (typeof module !== "undefined" && module.exports) {
 
 </script>
 <script>
-  EOSHCourses.init({ headerMount: '#ec-header-mount', appMount: '#ec-app' });
+  loadCourseData().then(() => {
+    EOSHCourses.init({ headerMount: '#ec-header-mount', appMount: '#ec-app' });
+  });
 
   function performSearch() {
     var input = document.getElementById('site-search');
