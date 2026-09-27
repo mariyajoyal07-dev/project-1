@@ -581,30 +581,38 @@ function buildAttachmentCatalog(csvText) {
     return [];
   }
 
-  const headers = [
-    "SL.NO",
-    "COURSE CODE",
-    "CATEGORY",
-    "ACCREDITATION BODY",
-    "CERTIFICATION",
-    "LEVEL",
-    "DURATION",
-    "ASSESSMENT TYPE",
-    "SYLLABUS",
-    "REMARKS"
-  ];
+  const headerAliases = {
+    "SL.NO": ["slno"],
+    "COURSE CODE": ["coursecode"],
+    "CATEGORY": ["category"],
+    "ACCREDITATION BODY": ["accreditationbody", "accerditionbody"],
+    "CERTIFICATION": ["certification"],
+    "LEVEL": ["level"],
+    "DURATION": ["duration"],
+    "ASSESSMENT TYPE": ["assessmenttype"],
+    "SYLLABUS": ["syllabus"],
+    "REMARKS": ["remarks"]
+  };
+  const headers = rows[0].map(header => cleanCsvCell(header).toLowerCase().replace(/[^a-z0-9]/g, ""));
+  const columnIndexes = Object.fromEntries(Object.entries(headerAliases).map(([name, aliases]) => [
+    name,
+    headers.findIndex(header => aliases.includes(header))
+  ]));
+  if (columnIndexes.CERTIFICATION < 0 || columnIndexes.CATEGORY < 0) {
+    throw new Error("The course CSV is missing its CATEGORY or CERTIFICATION column.");
+  }
 
   const categories = new Map();
   let lastCategory = "";
 
   for (const row of rows.slice(1)) {
-    if (row.length < headers.length) {
+    if (!row.some(cell => cleanCsvCell(cell))) {
       continue;
     }
 
     const item = {};
-    headers.forEach((header, index) => {
-      item[header] = cleanCsvCell(row[index]);
+    Object.entries(columnIndexes).forEach(([header, index]) => {
+      item[header] = index < 0 ? "" : cleanCsvCell(row[index]);
     });
 
     const certification = item.CERTIFICATION;
@@ -708,9 +716,15 @@ let SEARCH_INDEX = [];
 
 async function loadCourseData() {
   const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSXMMRdkZwZSB9xqOMRwDOLbeTN176CwcvmvhL-V9vX1JpFuWuthjvTwG4kKed4yMl5NNMQByKIxeO3/pub?gid=773695980&single=true&output=csv";
-  const response = await fetch(CSV_URL);
+  const response = await fetch(CSV_URL, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error("Course CSV request failed: " + response.status);
+  }
   const csvText = await response.text();
   COURSE_CATEGORIES = buildAttachmentCatalog(csvText);
+  if (!COURSE_CATEGORIES.length) {
+    throw new Error("The course CSV contains no usable course records.");
+  }
   SEARCH_INDEX = buildSearchIndex(COURSE_CATEGORIES);
   window.COURSE_CATEGORIES = COURSE_CATEGORIES;
   window.SEARCH_INDEX = SEARCH_INDEX;
@@ -1274,9 +1288,21 @@ async function loadCourseData() {
 
 </script>
 <script>
-  loadCourseData().then(() => {
-    EOSHCourses.init({ headerMount: '#ec-header-mount', appMount: '#ec-app' });
-  });
+  const courseApp = document.getElementById('ec-app');
+
+  async function startCourseApp() {
+    courseApp.innerHTML = '<div class="ec-scope"><section class="ec-section"><div class="ec-container" role="status" aria-live="polite">Loading course catalogue...</div></section></div>';
+    try {
+      await loadCourseData();
+      EOSHCourses.init({ headerMount: '#ec-header-mount', appMount: '#ec-app' });
+    } catch (error) {
+      console.error('Unable to load course catalogue:', error);
+      courseApp.innerHTML = '<div class="ec-scope"><section class="ec-section"><div class="ec-container"><p role="alert">Course catalogue could not be loaded. Please check your connection and try again.</p><button class="ec-btn ec-btn-primary" id="ec-retry-load" type="button">Retry</button></div></section></div>';
+      courseApp.querySelector('#ec-retry-load').addEventListener('click', startCourseApp);
+    }
+  }
+
+  startCourseApp();
 
   function performSearch() {
     var input = document.getElementById('site-search');
